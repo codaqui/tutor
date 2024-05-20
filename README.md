@@ -22,7 +22,7 @@ flowchart TD
 
 ```bash
 poetry install
-poetry run migrate
+poetry run python manage.py migrate 
 poetry run python manage.py runserver
 ```
 

@@ -11,6 +11,7 @@ package-mode = false
 python = "^3.11"
 Django = "^5.0.4"
 social-auth-app-django = "^5.4.0"
+python-dotenv = "^1.0.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.4.0"

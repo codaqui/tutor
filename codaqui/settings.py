@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-p-aj+*a&nph0r28ry1+thi$j%_7_#%#z0-84x3tqtque7g-li@"
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -59,16 +63,22 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "codaqui.urls"
 
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            TEMPLATES_DIR,
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
+                "social_django.context_processors.backends",
+                "social_django.context_processors.login_redirect",
                 "django.contrib.messages.context_processors.messages",
             ],
         },
@@ -136,9 +146,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "users.User"
 SOCIAL_AUTH_JSONFIELD_ENABLED = True
 AUTHENTICATION_BACKENDS = (
+    "social_core.backends.github.GithubOAuth2",
     "django.contrib.auth.backends.ModelBackend",
-    "social_core.backends.google.GithubOAuth2",
 )
-SOCIAL_AUTH_GITHUB_KEY = "ef99ccf47d36955156fc"
-SOCIAL_AUTH_GITHUB_SECRET = "916c541e9f9fb89573b5853ea226aece675c06aa"
+SOCIAL_AUTH_GITHUB_KEY = os.getenv("GITHUB_OAUTH_CLIENT_ID")
+SOCIAL_AUTH_GITHUB_SECRET = os.getenv("GITHUB_OAUTH_SECRET")
 # SOCIAL_AUTH_GITHUB_SCOPE = ["user:email"]
