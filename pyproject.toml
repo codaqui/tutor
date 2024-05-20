@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "codaqui-intranet"
+version = "0.0.1"
+description = "Intranet para Serviços da Codaqui"
+authors = ["Enderson Menezes <enderson@codaqui.dev>"]
+license = "MIT"
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+Django = "^5.0.4"
+social-auth-app-django = "^5.4.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.0"
+pytest = "^8.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
