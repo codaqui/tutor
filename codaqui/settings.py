@@ -48,7 +48,8 @@ INSTALLED_APPS = [
 
     # Local apps
     "student",
-    "users"
+    "users",
+    "core"
 ]
 
 MIDDLEWARE = [
@@ -144,6 +145,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # https://python-social-auth.readthedocs.io/en/latest/configuration/django.html
 
 AUTH_USER_MODEL = "users.User"
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/"
 SOCIAL_AUTH_JSONFIELD_ENABLED = True
 AUTHENTICATION_BACKENDS = (
     "social_core.backends.github.GithubOAuth2",

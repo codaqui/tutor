@@ -4,17 +4,18 @@
 
 A ideia básica é criar um sistema que o aluno consiga criar sua conta com o GitHub e acessar a intranet da Codaqui.
 
-```mermaid
-flowchart TD
-    A[Aluno]
-    B[GitHub]
-    C[Intranet]
-    D[Eventos]
-
-    A -->|Acessa a Intranet| B
-    B -->|Autentica no Sistema| C
-    C -->|Libera a interface de aluno| D
-```
+- [X] Sistema de login via GitHub.
+- [X] Perfil de Estudante
+- [ ] Criar um sistema de completar o cadastro.
+- [ ] Desenhar a ideia de Develop Bounty
+  - Sistema de Cadastro de Tasks
+    - Pontuação
+  - Pode pegar a task e dizer quando vai entregar ou se comprometer com a data solicitada.
+  - Ganhar pontos por tasks.
+  - CodaPoints ----> Dinheiro (conforme a conta bancária)
+    - Pode trocar por cursos, livros, etc.
+    - Codapoints (total de pontos existem para ser trocados // saldo da conta)
+    - 1 real - 1 ponto
 
 ## Desenvolvimento
 

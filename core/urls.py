@@ -16,8 +16,12 @@ Including another URLconf
 """
 
 from django.urls import path
-from core.views import pagina_inicial
+from core.views import index_view, logout_view
+from core.apps import CoreConfig
+
+app_name = CoreConfig.name
 
 urlpatterns = [
-    path("", pagina_inicial),
+    path("", index_view, name="index"),
+    path("logout/", logout_view, name="logout")
 ]
