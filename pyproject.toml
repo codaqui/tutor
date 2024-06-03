@@ -5,7 +5,7 @@ description = "Intranet para Serviços da Codaqui"
 authors = ["Enderson Menezes <enderson@codaqui.dev>"]
 license = "MIT"
 readme = "README.md"
-package-mode = false
+# package-mode = true
 
 [tool.poetry.dependencies]
 python = "^3.11"
