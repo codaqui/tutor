@@ -12,8 +12,8 @@ def index_view(request):
     if request.user.is_authenticated:
         try:
             data['student'] = request.user.student
-            if not hasattr(data['student'], 'is_active') or not data['student'].is_active:
-                return redirect('student:student_form')
+            if not data['student'].is_active:
+                return render(request, 'core/index.html', data)
         except User.student.RelatedObjectDoesNotExist:
             return redirect('student:student_form')
     else:
