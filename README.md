@@ -21,6 +21,20 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
 - [ ] Rever fluxos de formulários, verificar se tem como cair em alguma exceção.
 - [ ] Criar página para editar perfil separada, para facilitar manutenção.
 
+### Futuros Apps
+
+- [ ] App de Integração com o Discord
+  - [ ] Presença em Monitoria/Encontro
+  - [ ] Mensagem automática de Encontro e Resumo do Encontro
+  - [ ] Pontos automáticos para lista de presença.
+- [ ] Bot de Discord
+  - [ ] Ranking de Pontuação
+  - [ ] Consultar/Editar perfil
+  - [ ] Vinculo de Perfil do Discord para Perfil da Codaqui
+    - [ ] Modelo do Discord
+    - [ ] 1:1 com Stundent
+    - [ ] Integração de Carteira e Pontos
+
 ## Desenvolvimento
 
 ### Executando o Projeto
