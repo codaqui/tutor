@@ -6,7 +6,7 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
 
 - [X] Sistema de login via GitHub.
 - [X] Perfil de Estudante
-- [ ] Criar um sistema de completar o cadastro.
+- [X] Criar um sistema de completar o cadastro.
 - [ ] Desenhar a ideia de Develop Bounty
   - Sistema de Cadastro de Tasks
     - Pontuação
@@ -16,6 +16,10 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
     - Pode trocar por cursos, livros, etc.
     - Codapoints (total de pontos existem para ser trocados // saldo da conta)
     - 1 real - 1 ponto
+- [ ] Lint e iSort do Projeto
+- [ ] Sistema para gerenciar mais fácil alunos que precisam de ativação.
+- [ ] Rever fluxos de formulários, verificar se tem como cair em alguma exceção.
+- [ ] Criar página para editar perfil separada, para facilitar manutenção.
 
 ## Desenvolvimento
 

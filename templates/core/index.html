@@ -1,15 +1,25 @@
-<h1> Codaqui </h1>
+{% extends 'base.html' %}
 
-{% if user.is_authenticated %}
-    {% if not student %}
-        <!-- Necessita do pré-cadastro -->
-        <p>O seu registro está incompleto, para liberar as funções do site. Complete clicando aqui: X. </p>
+{% block content %}
+
+    {% if user.is_authenticated %}
+        {% if not student %}
+            <!-- Necessita do pré-cadastro -->
+            <p>O seu registro está incompleto, para liberar as funções do site. Complete clicando aqui: X. </p>
+        {% else %}
+            <!-- Ainda precisa ativar a conta-->
+            {% if not user.student.is_active %}
+                <p>Para ativar a sua conta, clique aqui: X.</p>
+            {% else %}
+                <!-- Já possui o pré-cadastro -->
+                <p>Olá, {{ user.student.name }}!</p>
+                <p>Você tem ou completará este ano: {{ user.student.get_age }} anos!</p>
+                <p>Seja bem-vindo ao Codaqui!</p>
+            {% endif %}
+        {% endif %}
+        <a href="{% url "core:logout" %}">Sair</a>
     {% else %}
-        <!-- Já possui o pré-cadastro -->
-        <p>Olá, {{ user.student.name }}!</p>
-        <p>Você tem ou completará este ano: {{ user.student.get_age }} anos!</p> 
+        <a href="{% url "social:begin" "github" %}">Entrar com GitHub</a>
     {% endif %}
-    <a href="{% url "core:logout" %}">Sair</a>
-{% else %}
-    <a href="{% url "social:begin" "github" %}">Entrar com GitHub</a>
-{% endif %}
+
+{% endblock %}
