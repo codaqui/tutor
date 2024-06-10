@@ -9,9 +9,12 @@ def index_view(request):
     Página Inicial
     """
     data = {}
-    try:
-        data['student'] = request.user.student
-    except User.student.RelatedObjectDoesNotExist:
+    if request.user.is_authenticated:
+        try:
+            data['student'] = request.user.student
+        except User.student.RelatedObjectDoesNotExist:
+            data['student'] = None
+    else:
         data['student'] = None
     return render(request, 'core/index.html', data)
 
