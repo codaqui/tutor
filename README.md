@@ -6,7 +6,7 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
 
 - [X] Sistema de login via GitHub.
 - [X] Perfil de Estudante
-- [ ] Criar um sistema de completar o cadastro.
+- [X] Criar um sistema de completar o cadastro.
 - [ ] Desenhar a ideia de Develop Bounty
   - Sistema de Cadastro de Tasks
     - Pontuação

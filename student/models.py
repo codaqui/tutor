@@ -18,6 +18,7 @@ class Student(AuditModel):
     birth_year = models.IntegerField()
     email = models.EmailField()
     telephone = models.CharField(max_length=20)
+    is_active = models.BooleanField(default=False)  # Added field to track if the profile is active or not
 
     def __str__(self):
         return self.name
