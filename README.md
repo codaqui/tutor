@@ -35,6 +35,11 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
     - [ ] 1:1 com Stundent
     - [ ] Integração de Carteira e Pontos
 
+### Melhorias de Infraestrutura
+
+- [ ] Cobertura de Testes
+- [ ] Modo de Desenvolvimento com Docker
+
 ## Desenvolvimento
 
 ### Executando o Projeto
