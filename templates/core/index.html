@@ -17,9 +17,8 @@
                 <p>Seja bem-vindo ao Codaqui!</p>
             {% endif %}
         {% endif %}
-        <a href="{% url "core:logout" %}">Sair</a>
     {% else %}
-        <a href="{% url "social:begin" "github" %}">Entrar com GitHub</a>
+        
     {% endif %}
 
 {% endblock %}
