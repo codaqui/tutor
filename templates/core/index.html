@@ -5,7 +5,7 @@
     {% if user.is_authenticated %}
         {% if not student %}
             <!-- Necessita do pré-cadastro -->
-            <p>O seu registro está incompleto, para liberar as funções do site. Complete clicando aqui: X. </p>
+            <p>O seu registro está incompleto, para liberar as funções do site. Complete clicando aqui: <a href="{% url "student:student_form" %}">x</a>. </p>
         {% else %}
             <!-- Ainda precisa ativar a conta-->
             {% if not user.student.is_active %}
