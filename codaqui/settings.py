@@ -47,9 +47,10 @@ INSTALLED_APPS = [
     "social_django",
 
     # Local apps
-    "student",
+    "core",
     "users",
-    "core"
+    "student",
+    "wallet"
 ]
 
 MIDDLEWARE = [

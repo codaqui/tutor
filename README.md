@@ -7,19 +7,19 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
 - [X] Sistema de login via GitHub.
 - [X] Perfil de Estudante
 - [X] Criar um sistema de completar o cadastro.
-- [ ] Desenhar a ideia de Develop Bounty
-  - Sistema de Cadastro de Tasks
-    - Pontuação
-  - Pode pegar a task e dizer quando vai entregar ou se comprometer com a data solicitada.
-  - Ganhar pontos por tasks.
-  - CodaPoints ----> Dinheiro (conforme a conta bancária)
-    - Pode trocar por cursos, livros, etc.
-    - Codapoints (total de pontos existem para ser trocados // saldo da conta)
-    - 1 real - 1 ponto
+- [X] Sistema de Carteira
+  - [X] Usuário poder ter uma carteira.
+    - [ ] Faz sentido a carteira ser criada com o perfil?
+    - [ ] Faz sentido a carteira ser criada com a ativação?
+  - [X] Usuário pode consultar seus pontos.
+  - [ ] Usuário pode consultar histórico de transações.
+- [ ] Sistema de Tarefas
+  - [ ] Usuário o pode ver as tarefas disponíveis.
 - [ ] Lint e iSort do Projeto
 - [ ] Sistema para gerenciar mais fácil alunos que precisam de ativação.
 - [ ] Rever fluxos de formulários, verificar se tem como cair em alguma exceção.
 - [ ] Criar página para editar perfil separada, para facilitar manutenção.
+- [ ] Resetar o banco de dados e partir como v1.
 
 ### Futuros Apps
 

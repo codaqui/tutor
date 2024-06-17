@@ -13,7 +13,7 @@
             {% else %}
                 <!-- Já possui o pré-cadastro -->
                 <p>Olá, {{ user.student.name }}!</p>
-                <p>Você tem ou completará este ano: {{ user.student.get_age }} anos!</p>
+                <p>Você tem {{ user.wallet }} CodaPoints disponíveis! </p>
                 <p>Seja bem-vindo ao Codaqui!</p>
             {% endif %}
         {% endif %}
