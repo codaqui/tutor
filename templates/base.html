@@ -4,6 +4,7 @@
 
 - <a href="{% url "core:index" %}">Home</a> <br>
 {% if user.is_authenticated %}
+- <a href="{% url "student:student_form" %}">Perfil</a> <br>
 - <a href="{% url "core:logout" %}">Sair</a> <br>
 {% else %}
 - <a href="{% url "social:begin" "github" %}">Entrar com GitHub</a> <br>
