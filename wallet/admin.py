@@ -4,7 +4,7 @@ from wallet.models import Activities, Wallet
 # Register your models here.
 
 class ActivitiesAdmin(admin.ModelAdmin):
-    list_display = ('user', 'value', 'description')
+    list_display = ('user', 'value', 'description', 'reason')
 
 class WalletAdmin(admin.ModelAdmin):
     list_display = ('user', 'balance')

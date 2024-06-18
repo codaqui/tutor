@@ -13,7 +13,11 @@
             {% else %}
                 <!-- Já possui o pré-cadastro -->
                 <p>Olá, {{ user.student.name }}!</p>
-                <p>Você tem {{ user.wallet }} CodaPoints disponíveis! </p>
+                {% if user.wallet != "" %}
+                    <p>Você tem {{ user.wallet }} CodaPoints disponíveis! </p>
+                {% else %}
+                    <p>Você tem não possui uma carteira! </p>
+                {% endif %}
                 <p>Seja bem-vindo ao Codaqui!</p>
             {% endif %}
         {% endif %}

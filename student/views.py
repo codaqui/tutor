@@ -11,6 +11,7 @@ def student_data_form_view(request):
     data = {}
     student = get_or_none(Student, user=request.user)
 
+
     # Request == POST
     if request.method == 'POST':
         if not student:

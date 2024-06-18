@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models.signals import pre_save, pre_delete
 from django.dispatch import receiver
 from utils.models import AuditModel
-from codaqui.settings import AUTH_USER_MODEL
+from codaqui.settings import AUTH_USER_MODEL,OPTION_CHOICES
 
 # Create your models here.
 
@@ -11,8 +11,10 @@ class Activities(AuditModel):
         AUTH_USER_MODEL, 
         on_delete=models.CASCADE,
     )
+
     value = models.DecimalField(max_digits=8, decimal_places=2)
     description = models.CharField(max_length=255)
+    reason = models.CharField(max_length=255,choices=OPTION_CHOICES)
 
     def __str__(self):
         return str(self.value)
@@ -36,9 +38,10 @@ class Wallet(AuditModel):
         self.balance -= value
         self.save()
 
+
     @receiver(pre_save, sender=Activities)
     def activities_created(sender, instance, **kwargs):
-        wallet = Wallet.objects.get(user=instance.user)
+        wallet = Wallet.objects.select_for_update().get(user=instance.user)
         if instance.value < 0 and wallet.balance < abs(instance.value):
             raise ValueError('Saldo insuficiente')
         wallet.credit(instance.value)
