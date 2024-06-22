@@ -26,5 +26,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", index_view, name="index"),
     path("logout/", logout_view, name="logout"),
-    path('student/', include('student.urls'))
+    path('student/', include('student.urls')),
+    path('wallet/', include('wallet.urls'))
 ]

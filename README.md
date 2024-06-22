@@ -10,9 +10,9 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
 - [X] Sistema de Carteira
   - [X] Usuário poder ter uma carteira.
     - [ ] Faz sentido a carteira ser criada com o perfil?
-    - [ ] Faz sentido a carteira ser criada com a ativação?
+    - [X] Faz sentido a carteira ser criada com a ativação?
   - [X] Usuário pode consultar seus pontos.
-  - [ ] Usuário pode consultar histórico de transações.
+  - [X] Usuário pode consultar histórico de transações.
 - [ ] Sistema de Tarefas
   - [ ] Usuário o pode ver as tarefas disponíveis.
 - [ ] Lint e iSort do Projeto
@@ -41,6 +41,15 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
 - [ ] Modo de Desenvolvimento com Docker
 
 ## Desenvolvimento
+
+
+### Criando dotenv 
+
+```dosini
+GITHUB_OAUTH_SECRET=""
+GITHUB_OAUTH_CLIENT_ID=""
+SECRET_KEY=""
+```
 
 ### Executando o Projeto
 

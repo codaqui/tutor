@@ -3,6 +3,7 @@ from django.db.models.signals import pre_save, pre_delete
 from django.dispatch import receiver
 from utils.models import AuditModel
 from codaqui.settings import AUTH_USER_MODEL,OPTION_CHOICES
+from django.utils import timezone
 
 # Create your models here.
 
@@ -15,6 +16,7 @@ class Activities(AuditModel):
     value = models.DecimalField(max_digits=8, decimal_places=2)
     description = models.CharField(max_length=255)
     reason = models.CharField(max_length=255,choices=OPTION_CHOICES)
+    date =  models.DateField(default=timezone.now)
 
     def __str__(self):
         return str(self.value)
