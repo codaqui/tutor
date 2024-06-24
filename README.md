@@ -26,6 +26,9 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
   - [ ] O usuário pode concluir (enviar para analise) a tarefa.
   - [ ] O usuário pode saber o resultado da analise.
 - [ ] Atualizar a Wallet para poder associar uma Issue na transação. (opcional)
+- [ ] Loja Virtual
+  - [ ] Escolher item.
+  - [ ] Revisão.
 - [ ] Testes Básicos
 - [ ] Pré - Deploy - v1
   - [ ] Lint e iSort do Projeto
