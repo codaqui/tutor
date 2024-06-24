@@ -14,7 +14,7 @@
                 <!-- Já possui o pré-cadastro -->
                 <p>Olá, {{ user.student.name }}!</p>
                 {% if user.wallet != "" %}
-                    <p>Você tem {{ user.wallet }} CodaPoints disponíveis! Seu <a href="{% url "wallet:wallet_profile" %}">Historico</a></p>
+                    <p>Você tem {{ user.wallet }} CodaPoints disponíveis! Consulte seu <a href="{% url "wallet:wallet_profile" %}">Extrato.</a></p>
                 {% else %}
                     <p>Você tem não possui uma carteira! </p>
                 {% endif %}

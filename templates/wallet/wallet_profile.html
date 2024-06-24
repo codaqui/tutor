@@ -1,54 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Histórico de Atividades</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            width: 80%;
-            margin: 0 auto;
-        }
-        h1, h2 {
-            text-align: center;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Histórico de Atividades</h1>
-        <h2>Saldo Atual: R$ {{ user.wallet }}</h2>
-        <table>
-            <tr>
-                <th>Data</th>
-                <th>Valor</th>
-                <th>Descrição</th>
-                <th>Motivo</th>
-            </tr>
-            {% for data in userdata %}
-            <tr>
-                <td>{{ data.date|date:"d/m/Y" }}</td>
-                <td>{{ data.value }}</td>
-                <td>{{ data.description }}</td>
-                <td>{{ data.reason }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Histórico de Atividades</h1>
+    <h2>Saldo Atual: {{ user.wallet }} CodaPoints.</h2>
+    <table>
+        <tr>
+            <th>Data</th>
+            <th>Valor</th>
+            <th>Descrição</th>
+        </tr>
+        {% for data in user_data %}
+        <tr>
+            <td>{{ data.created_at|date:"d/m/Y" }}</td>
+            <td>{{ data.value }}</td>
+            <td>{{ data.description }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

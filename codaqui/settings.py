@@ -155,16 +155,3 @@ AUTHENTICATION_BACKENDS = (
 SOCIAL_AUTH_GITHUB_KEY = os.getenv("GITHUB_OAUTH_CLIENT_ID")
 SOCIAL_AUTH_GITHUB_SECRET = os.getenv("GITHUB_OAUTH_SECRET")
 # SOCIAL_AUTH_GITHUB_SCOPE = ["user:email"]
-
-OPTION_ONE = 'Participação de aula'
-OPTION_TWO = 'Certificado'
-OPTION_THREE = 'Projeto'
-OPTION_FOUR = 'Postagem no Blog'
-
-OPTION_CHOICES = [
-    (OPTION_ONE, 'Participação de aula'),
-    (OPTION_TWO, 'Certificado'),
-    (OPTION_THREE, 'Projeto'),
-    (OPTION_FOUR, 'Postagem no Blog')
-    
-]

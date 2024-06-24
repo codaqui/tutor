@@ -4,12 +4,12 @@
 
 - <a href="{% url "core:index" %}">Home</a> <br>
 {% if user.is_authenticated %}
-- <a href="{% url "student:student_form" %}">Perfil</a> <br>
-- <a href="{% url "core:logout" %}">Sair</a> <br>
+    <img src="https://avatars.githubusercontent.com/u/{{ user.get_github_data.uid }}?v=4" height="50" width="50"> <br>
+    - <a href="{% url "student:student_form" %}">Perfil</a> <br>
+    - <a href="{% url "core:logout" %}">Sair</a> <br>
 {% else %}
-- <a href="{% url "social:begin" "github" %}">Entrar com GitHub</a> <br>
+    - <a href="{% url "social:begin" "github" %}">Entrar com GitHub</a> <br>
 {% endif %}
 
 {% block content %}
-
 {% endblock %}
