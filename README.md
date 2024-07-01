@@ -5,8 +5,8 @@
 A ideia básica é criar um sistema que o aluno consiga criar sua conta com o GitHub e acessar a intranet da Codaqui.
 
 - [X] Sistema de login via GitHub.
-  - [ ] Receber convite para fazer parte do time: https://github.com/orgs/codaqui/teams/intranet
-  - [ ] Validar se a pessoa faz parte do time no GitHub.
+  - [X] Receber convite para fazer parte do time: https://github.com/orgs/codaqui/teams/intranet
+  - [X] Validar se a pessoa faz parte do time no GitHub.
 - [X] Perfil de Estudante
 - [X] Criar um sistema de completar o cadastro.
 - [X] Sistema de Carteira
