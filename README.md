@@ -17,8 +17,8 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
 - [ ] Criar um repositório para salvar as Issues da Intranet.
   - [ ] Criar um repositório para salvar as Issues da Intranet.
   - [ ] Criar um repositório para salvar as Issues da Intranet.
-- [ ] GitHub Service
-  - [ ] Consumir rotas da API com o App GitHub.
+- [X] GitHub Service
+  - [X] Consumir rotas da API com o App GitHub.
 - [ ] Sistema de Tarefas (Integração com o GitHub)
   - [ ] Usuário o pode ver as tarefas disponíveis.
   - [ ] O usuário pode se candidatar a uma tarefa disponível.
