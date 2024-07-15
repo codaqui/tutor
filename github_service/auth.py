@@ -46,7 +46,8 @@ def generate_access_token():
 
     url = f'https://api.github.com/app/installations/{GH_APP_INSTALL_ID}/access_tokens'
     response = requests.post(url, headers=headers)
-
+    
+    if response.status_code == 201:
         access_token = response.json().get('token')
         return access_token
     else:
