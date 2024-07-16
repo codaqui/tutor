@@ -24,4 +24,5 @@ urlpatterns = [
     path('', include('social_django.urls', namespace='social',)),
     path('student/', include('student.urls', namespace='student')),
     path('wallet/', include('wallet.urls', namespace='wallet')),
+    path('repository/', include('users.urls', namespace='repository')),
 ]
