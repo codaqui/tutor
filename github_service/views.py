@@ -20,17 +20,15 @@ def github_headers_with_json():
         'Content-Type': 'application/json'
     }
 
-def create_github_repository():
-    jwt_token = generate_jwt_from_app()
-    url = 'https://api.github.com/user/repos'
-    headers = {
-        'Authorization': f'Bearer {jwt_token}',
-        'Accept': 'application/vnd.github+json',
-        'Content-Type': 'application/json'
-    }
+def create_github_repository(github_username: str):
+    url = f'https://api.github.com/user/repos'
+    headers = github_headers()
     data = {
-        'name': 'repository_codaqui',
-        'private': False
+        'name': f'{github_username}-codaqui',
+        'description': 'Repository for Codaqui',
+        'homepage': 'https://github.com',
+        'private': False,
+        'is_template': True,
     }
     response = requests.post(url, headers=headers, json=data)
     return response.json()
@@ -79,20 +77,3 @@ def verify_membership(github_username: str):
     response = requests.get(url, headers=headers)
     return response.status_code == 200
 
-def create_github_repository_success(requests_mock):
-    # Mock the API response
-    requests_mock.post('https://api.github.com/user/repos', json={'name': 'repository_codaqui', 'private': False}, status_code=201)
-
-    # Call the function
-    response = create_github_repository('repository_codaqui')
-
-    # Check the response
-    assert response == {'name': 'repository_codaqui', 'private': False}
-
-def create_github_repository_failure(requests_mock):
-    # Mock the API response
-    requests_mock.post('https://api.github.com/user/repos', json={'message': 'Error'}, status_code=500)
-
-    # Call the function
-    with pytest.raises(requests.exceptions.RequestException):
-        create_github_repository('repository_codaqui')
