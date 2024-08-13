@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     "users",
     "student",
     "wallet",
-    "github_service"
+    "github_service",
+    "discord_service",
 ]
 
 MIDDLEWARE = [
