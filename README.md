@@ -40,11 +40,11 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
 
 ### Futuros Apps
 
-- [ ] App de Integração com o Discord
+- [X] App de Integração com o Discord
   - [ ] Presença em Monitoria/Encontro
-  - [ ] Mensagem automática de Encontro e Resumo do Encontro
+  - [X] Mensagem automática de Encontro e Resumo do Encontro
   - [ ] Pontos automáticos para lista de presença.
-- [ ] Bot de Discord
+- [X] Bot de Discord
   - [ ] Ranking de Pontuação
   - [ ] Consultar/Editar perfil
   - [ ] Vinculo de Perfil do Discord para Perfil da Codaqui
