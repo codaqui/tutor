@@ -146,6 +146,7 @@ GH_PRIVATE_KEY_FILE = os.getenv("GH_PRIVATE_KEY_FILE")
 GH_APP_INSTALL_ID = os.getenv("GH_APP_INSTALL_ID")
 GH_APP_ID = os.getenv("GH_APP_ID")
 DC_TOKEN = os.getenv("DC_TOKEN")
+DC_VERSION = os.getenv("DC_VERSION")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
