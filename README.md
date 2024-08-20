@@ -68,6 +68,8 @@ GITHUB_OAUTH_CLIENT_ID=""
 SECRET_KEY=""
 GH_APP_INSTALL_ID=""
 GH_APP_ID=""
+DC_TOKEN=""
+DC_VERSION=""
 ```
 
 ### Executando o Projeto
