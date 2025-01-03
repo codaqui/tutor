@@ -21,20 +21,6 @@ def github_headers_with_json():
     }
 
 
-def create_github_repository(github_username: str):
-    url = f"https://api.github.com/user/repos"
-    headers = github_headers()
-    data = {
-        "name": f"{github_username}-codaqui",
-        "description": "Repository for Codaqui",
-        "homepage": "https://github.com",
-        "private": False,
-        "is_template": True,
-    }
-    response = requests.post(url, headers=headers, json=data)
-    return response.json()
-
-
 def github_who_am_i():
     """
     Retrieves information about the authenticated GitHub App.
@@ -79,3 +65,15 @@ def verify_membership(github_username: str) -> bool:
     headers = github_headers()
     response = requests.get(url, headers=headers)
     return response.status_code == 200
+
+def list_issues():
+    """
+    List all issues in the GitHub repository.
+
+    Returns:
+        list: A list of dictionaries containing information about the issues.
+    """
+    url = "https://api.github.com/repos/codaqui/tutor/issues"
+    headers = github_headers()
+    response = requests.get(url, headers=headers)
+    return response.json()
