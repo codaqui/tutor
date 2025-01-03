@@ -4,6 +4,7 @@ from users.models import User
 
 # Create your views here.
 
+
 def index_view(request):
     """
     Página Inicial
@@ -11,18 +12,19 @@ def index_view(request):
     data = {}
     if request.user.is_authenticated:
         try:
-            data['student'] = request.user.student
-            if not data['student'].is_active:
-                return render(request, 'core/index.html', data)
+            data["student"] = request.user.student
+            if not data["student"].is_active:
+                return render(request, "core/index.html", data)
         except User.student.RelatedObjectDoesNotExist:
-            return redirect('student:student_form')
+            return redirect("student:student_form")
     else:
-        data['student'] = None
-    return render(request, 'core/index.html', data)
+        data["student"] = None
+    return render(request, "core/index.html", data)
+
 
 def logout_view(request):
     """
     Página de Logout
     """
     logout(request)
-    return render(request, 'core/index.html')
+    return render(request, "core/index.html")

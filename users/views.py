@@ -7,9 +7,8 @@ from github_service.views import create_github_repository
 
 @login_required
 def user_create_repository(request):
-    
+
     github_data = request.user.get_github_username()
     create_github_repository(github_data)
 
-    return redirect('core:index')
-
+    return redirect("core:index")

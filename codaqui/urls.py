@@ -20,9 +20,15 @@ from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('', include('core.urls', namespace='core')),
-    path('', include('social_django.urls', namespace='social',)),
-    path('student/', include('student.urls', namespace='student')),
-    path('wallet/', include('wallet.urls', namespace='wallet')),
-    path('repository/', include('users.urls', namespace='repository')),
+    path("", include("core.urls", namespace="core")),
+    path(
+        "",
+        include(
+            "social_django.urls",
+            namespace="social",
+        ),
+    ),
+    path("student/", include("student.urls", namespace="student")),
+    path("wallet/", include("wallet.urls", namespace="wallet")),
+    path("repository/", include("users.urls", namespace="repository")),
 ]

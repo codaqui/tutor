@@ -23,7 +23,7 @@ from core.apps import CoreConfig
 app_name = CoreConfig.name
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
     path("", index_view, name="index"),
     path("logout/", logout_view, name="logout"),
 ]
