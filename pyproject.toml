@@ -5,15 +5,15 @@ description = "Intranet para Serviços da Codaqui"
 authors = ["Enderson Menezes <enderson@codaqui.dev>"]
 license = "MIT"
 readme = "README.md"
-# package-mode = true
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.11"
 Django = "^5.0.4"
 social-auth-app-django = "^5.4.0"
 python-dotenv = "^1.0.1"
-jwt = "^1.3.1"
 requests = "^2.32.3"
+jwt = "^1.3.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.4.0"
