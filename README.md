@@ -62,7 +62,7 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
 
 ### Criando dotenv 
 
-```dosini
+```.env
 GITHUB_OAUTH_SECRET=""
 GITHUB_OAUTH_CLIENT_ID=""
 SECRET_KEY=""
@@ -70,6 +70,13 @@ GH_APP_INSTALL_ID=""
 GH_APP_ID=""
 DC_TOKEN=""
 DC_VERSION=""
+```
+
+```bash
+# Execute o comando abaixo para criar o arquivo .env
+cp .env.example .env
+
+# Abra o arquivo e preencha com as secrets, se você não sabe como conseguir entre em contato com o time de desenvolvimento.
 ```
 
 ### Executando o Projeto
