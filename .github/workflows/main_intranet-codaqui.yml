@@ -31,7 +31,7 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install poetry
-          poetry install --no-root --no-dev
+          poetry install --no-root
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
