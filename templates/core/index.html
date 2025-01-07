@@ -12,7 +12,6 @@
                 <p>Para ativar a sua conta, entre em contato via Discord ou WhatsApp com algum moderador, ou <a href="mailto:contato@codaqui.dev">envie um e-mail para nós!</a></p>
             {% else %}
                 <!-- Já possui o pré-cadastro -->
-                <p>Olá, {{ user.student.name }}!</p>
                 {% if user.wallet != "" %}
                     <p>Você tem {{ user.wallet }} CodaPoints disponíveis! Consulte seu <a href="{% url "wallet:wallet_profile" %}">Extrato.</a></p>
                 {% else %}
