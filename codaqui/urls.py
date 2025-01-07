@@ -30,4 +30,5 @@ urlpatterns = [
     ),
     path("student/", include("student.urls", namespace="student")),
     path("wallet/", include("wallet.urls", namespace="wallet")),
+    path("github-service/", include("github_service.urls", namespace="github_service")),
 ]
