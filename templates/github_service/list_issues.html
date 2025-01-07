@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Issues</h1>
+
+<p>Issues Encontradas: {{ issues|length }}</p>
+
+    {% for issue in issues %}
+    <div style="border: 1px solid black; padding: 10px; margin-bottom: 10px;">
+        <hr>
+        <h2>{{ issue.title }}</h2>
+        <p>{{ issue.body }}</p>
+        <p>Estado: {{ issue.state }}</p>
+        {% if issue.assignee %}
+            <p>Assignado para: {{ issue.assignee.login }}</p>
+        {% else %}
+            <p>Assignado para: <span style="color: red;">Ninguém</span>, esse problema pode ser seu!</p>
+        {% endif %}
+        <hr>
+        <a href="{% url 'github_service:get_issue' issue_number=issue.number action='view' %}"> Quero saber mais!</a>
+        <hr>
+    </div>
+    {% endfor %}
+
+{% endblock %}
