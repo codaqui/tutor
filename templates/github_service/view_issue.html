@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Issue: {{ issue.title }}</h1>
+
+    <hr>
+    <p>{{ issue.body }}</p>
+    <p>Estado: {{ issue.state }}</p>
+    {% if issue.assignee %}
+        <p>Assignado para: {{ issue.assignee.login }}</p>
+    {% else %}
+        <p>Assignado para: <span style="color: red;">Ninguém</span>, esse problema pode ser seu!</p>
+    {% endif %}    <p><a href="{{ issue.html_url}}">Ver issue no GitHub!</a></p>
+    <hr>
+    {% if issue.assignee %}
+        <p>Esse problema já está assignado para alguém, mas você pode ajudar!</p>
+        <p> Acesse diretamente o <a href="{{ issue.assignee.html_url }}">a Issue</a> e converse com a pessoa assignada!</p>
+    {% else %}
+        <p>Esse problema ainda não está assignado, você pode ajudar!</p>
+        <a href="{% url 'github_service:get_issue' issue_number=issue.number action='auto_assigne' %}">Estou apto, quero resolver!</a>
+    {% endif %}
+   <hr>
+
+{% endblock %}
