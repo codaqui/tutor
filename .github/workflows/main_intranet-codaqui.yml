@@ -27,8 +27,11 @@ jobs:
           python -m venv venv
           source venv/bin/activate
       
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+      - name: Install dependencies with poetry
+        run: |
+          pip install --upgrade pip
+          pip install poetry
+          poetry install --no-root --no-dev
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
