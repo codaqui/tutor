@@ -108,7 +108,7 @@ elif os.getenv("DATABASE") == "postgres":
                 "passfile": ".codaqui-intranet-pass",
             },
         }
-}
+    }
 else:
     raise Exception("Database not supported")
 

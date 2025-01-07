@@ -24,5 +24,7 @@ app_name = GithubServiceConfig.name
 
 urlpatterns = [
     path("list-issues/", view_list_issues, name="list_issues"),
-    path("get-issue/<int:issue_number>/<str:action>/", view_get_issue, name="get_issue"),
+    path(
+        "get-issue/<int:issue_number>/<str:action>/", view_get_issue, name="get_issue"
+    ),
 ]
