@@ -3,6 +3,8 @@
 
 # Projects Specifics
 private-key.pem
+.pg_service.conf
+.codaqui-intranet-pass
 
 ### Django ###
 *.log

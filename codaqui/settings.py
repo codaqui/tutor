@@ -92,12 +92,25 @@ WSGI_APPLICATION = "codaqui.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+if os.getenv("DATABASE") == "sqlite":
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
+elif os.getenv("DATABASE") == "postgres":
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "OPTIONS": {
+                "service": "codaqui-intranet",
+                "passfile": ".codaqui-intranet-pass",
+            },
+        }
 }
+else:
+    raise Exception("Database not supported")
 
 
 # Password validation
