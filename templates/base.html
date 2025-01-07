@@ -1,10 +1,18 @@
 <h1> Codaqui </h1>
 
+{% if user.is_authenticated %}
+    <img src="https://avatars.githubusercontent.com/u/{{ user.get_github_data.uid }}?v=4" height="50" width="50"> <br>
+    Olá, {{ user.get_github_username }}! <br>
+{% else %}
+    <p>Olá, visitante!</p>
+{% endif %} 
+
+
 <h2>Menu</h2>
 
 - <a href="{% url "core:index" %}">Home</a> <br>
 {% if user.is_authenticated %}
-    <img src="https://avatars.githubusercontent.com/u/{{ user.get_github_data.uid }}?v=4" height="50" width="50"> <br>
+    - <a href="{% url "github_service:list_issues" %}">Issues</a> <br>
     - <a href="{% url "student:student_form" %}">Perfil</a> <br>
     - <a href="{% url "core:logout" %}">Sair</a> <br>
 {% else %}
