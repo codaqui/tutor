@@ -35,7 +35,7 @@ ALLOWED_HOSTS = [
     "intranet.codaqui.dev",
 ]
 
-CSRF_TRUSTED_ORIGINS=[
+CSRF_TRUSTED_ORIGINS = [
     "https://intranet.codaqui.dev",
     "http://localhost:8000",
 ]
@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     # Third party apps
     "social_django",
     # Local apps
@@ -109,15 +108,15 @@ if DATABASE_SELECT == "sqlite":
     }
 elif DATABASE_SELECT == "postgres":
     DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "HOST": os.getenv("POSTGRES_HOST"),
-        "PORT": os.getenv("POSTGRES_PORT", 5432),
-        "NAME": os.getenv("POSTGRES_DB"),
-        "USER": os.getenv("POSTGRES_USER"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "HOST": os.getenv("POSTGRES_HOST"),
+            "PORT": os.getenv("POSTGRES_PORT", 5432),
+            "NAME": os.getenv("POSTGRES_DB"),
+            "USER": os.getenv("POSTGRES_USER"),
+            "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
+        }
     }
-}
 else:
     raise Exception("Database not supported")
 
@@ -160,7 +159,7 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # GitHub App Integration
 # https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/about-authentication-with-a-github-app
@@ -205,5 +204,7 @@ AUTHENTICATION_BACKENDS = (
 )
 SOCIAL_AUTH_GITHUB_KEY = os.getenv("GITHUB_OAUTH_CLIENT_ID")
 SOCIAL_AUTH_GITHUB_SECRET = os.getenv("GITHUB_OAUTH_SECRET")
-SOCIAL_AUTH_REDIRECT_IS_HTTPS = os.getenv("SOCIAL_AUTH_REDIRECT_IS_HTTPS", "True") == "True"
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = (
+    os.getenv("SOCIAL_AUTH_REDIRECT_IS_HTTPS", "True") == "True"
+)
 # SOCIAL_AUTH_GITHUB_SCOPE = ["user:email"]
