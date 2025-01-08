@@ -17,6 +17,8 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import include, path
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -31,4 +33,4 @@ urlpatterns = [
     path("student/", include("student.urls", namespace="student")),
     path("wallet/", include("wallet.urls", namespace="wallet")),
     path("github-service/", include("github_service.urls", namespace="github_service")),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
