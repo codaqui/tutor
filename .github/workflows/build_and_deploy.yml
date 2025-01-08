@@ -1,4 +1,4 @@
-name: "Publish a GitHub Packages Container to Tutor"
+name: "Publish a GitHub Packages Container to Tutor and Deploy"
 on:
   workflow_dispatch:
   push:
