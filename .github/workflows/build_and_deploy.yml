@@ -85,6 +85,7 @@ jobs:
           echo "POSTGRES_USER=${POSTGRES_USER}" >> ${FILE}
           echo "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}" >> ${FILE}
           echo "POSTGRES_DB=${POSTGRES_DB}" >> ${FILE}
+          echo "Send .env file to /opt/tutor/.env"
           sudo cp .env /opt/tutor/.env
           echo "Done!"
 
