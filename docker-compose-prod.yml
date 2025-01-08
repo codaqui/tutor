@@ -1,4 +1,15 @@
 services:
+
+  nginx:
+    image: nginx:1.21.3
+    ports:
+      - "8000:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - static_files:/app/static
+    depends_on:
+      - web
+
   web:
     image: ghcr.io/codaqui/tutor-image:latest-arm64-v8
     env_file:
@@ -6,10 +17,13 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    volumes:
+      - static_files:/app/static
     command: >
-      sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
-    ports:
-      - "8000:8000"
+      sh -c "python manage.py migrate 
+      && python manage.py collectstatic --noinput
+      && cp -r /app/staticfiles/* /app/static/
+      && python manage.py runserver 0.0.0.0:8000"
     links:
       - postgres
 
@@ -26,6 +40,9 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    ports:
+      - "5432:5432"
 
 volumes:
   postgres_data:
+  static_files:
