@@ -18,6 +18,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 1.1. Setup BuildX com Multiplataforma
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       # 2. Fazer o build da imagem
       - name: Build Docker image
         run: docker buildx build --platform linux/amd64,linux/arm64/v8 -t tutor-image .
