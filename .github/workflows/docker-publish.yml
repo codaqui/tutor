@@ -2,6 +2,10 @@ name: "Publish a Docker image to Tutor"
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   republish-image:
     runs-on: ubuntu-latest
