@@ -21,6 +21,7 @@ services:
         condition: service_healthy
     volumes:
       - static_files:/app/static
+      - ./:/app
     command: >
       sh -c "python manage.py migrate 
       && python manage.py collectstatic --noinput
