@@ -73,6 +73,26 @@ cp .env.example .env
 # Abra o arquivo e preencha com as secrets, se você não sabe como conseguir entre em contato com o time de desenvolvimento.
 ```
 
+### Secrets Especiais para o GitHub
+
+1. Crie uma organização no GitHub.
+2. Crie um time chamado `intranet`.
+3. Crie um OAuth App para sua Organização.
+4. Crie um App para sua organização.
+
+Preencha as secrets:
+
+```bash
+GITHUB_OAUTH_SECRET=""
+GITHUB_OAUTH_CLIENT_ID=""
+GITHUB_ORGANIZATION="<sua_organização>"
+GITHUB_REPOSITORY="<repositorio_de_issues_para_teste>"
+SECRET_KEY=""
+GH_APP_INSTALL_ID=""
+GH_APP_ID=""
+GH_PRIVATE_KEY_FILE="private-key.pem"
+```
+
 ### Executando o Projeto
 
 ```bash
