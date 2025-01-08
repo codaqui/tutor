@@ -102,14 +102,15 @@ if DATABASE_SELECT == "sqlite":
     }
 elif DATABASE_SELECT == "postgres":
     DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "OPTIONS": {
-                "service": "codaqui-intranet",
-                "passfile": ".codaqui-intranet-pass",
-            },
-        }
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "HOST": os.getenv("POSTGRES_HOST"),
+        "PORT": os.getenv("POSTGRES_PORT", 5432),
+        "NAME": os.getenv("POSTGRES_DB"),
+        "USER": os.getenv("POSTGRES_USER"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
     }
+}
 else:
     raise Exception("Database not supported")
 
