@@ -35,6 +35,10 @@ ALLOWED_HOSTS = [
     "intranet.codaqui.dev",
 ]
 
+CSRF_TRUSTED_ORIGINS=[
+    "https://intranet.codaqui.dev",
+    "http://localhost:8000",
+]
 # Application definition
 
 INSTALLED_APPS = [
