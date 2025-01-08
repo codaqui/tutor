@@ -62,7 +62,6 @@ jobs:
           GH_APP_ID: "929272"
           GH_PRIVATE_KEY_FILE: "private-key.pem"
           DEBUG: False
-          DATABASE: "postgres"
           POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
@@ -80,7 +79,6 @@ jobs:
           echo "GH_APP_ID=${GH_APP_ID}" >> ${FILE}
           echo "GH_PRIVATE_KEY_FILE=${GH_PRIVATE_KEY_FILE}" >> ${FILE}
           echo "DEBUG=${DEBUG}" >> ${FILE}
-          echo "DATABASE=${DATABASE}" >> ${FILE}
           echo "POSTGRES_HOST=${POSTGRES_HOST}" >> ${FILE}
           echo "POSTGRES_USER=${POSTGRES_USER}" >> ${FILE}
           echo "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}" >> ${FILE}
