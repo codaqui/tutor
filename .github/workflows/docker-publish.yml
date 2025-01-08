@@ -1,4 +1,4 @@
-name: "Publish a Docker image to Tutor"
+name: "Publish a GitHub Packages Container to Tutor"
 on:
   workflow_dispatch:
 
@@ -7,7 +7,7 @@ permissions:
   packages: write
 
 jobs:
-  republish-image:
+  publish-image:
     runs-on: ubuntu-latest
 
     steps:
