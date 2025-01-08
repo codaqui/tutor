@@ -40,7 +40,9 @@ jobs:
       - name: GH Private Key Setup
         run: |
           sudo touch /opt/tutor/private-key.pem
-          sudo echo "${{ secrets.GH_PRIVATE_KEY }}" > /opt/tutor/private-key.pem
+          touch private-key.pem
+          sudo echo "${{ secrets.GH_PRIVATE_KEY }}" > private-key.pem
+          sudo cp private-key.pem /opt/tutor/private-key.pem
           sudo chmod 600 private-key.pem
 
       - name: Create .env file
