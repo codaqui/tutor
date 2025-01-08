@@ -1,6 +1,6 @@
 services:
   web:
-    image: ghcr.io/codaqui/tutor-image:latest-linux/arm64/v8
+    image: ghcr.io/codaqui/tutor-image:latest-arm64-v8
     env_file:
       - .env
     depends_on:

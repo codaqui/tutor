@@ -26,13 +26,17 @@ jobs:
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+        
 
       # 2. Fazer o build da imagem e push
       - name: Build and Push Docker image
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-          docker buildx build --platform ${{ matrix.platform }} -t ghcr.io/${{ github.repository_owner }}/tutor-image:latest-${{ matrix.platform }} --push .
-
+          if [ ${{ matrix.platform }} == "linux/amd64" ]; then
+            docker buildx build --platform ${{ matrix.platform }} -t ghcr.io/${{ github.repository_owner }}/tutor-image:latest-amd64 --push .
+          elif [ ${{ matrix.platform }} == "linux/arm64/v8" ]; then
+            docker buildx build --platform ${{ matrix.platform }} -t ghcr.io/${{ github.repository_owner }}/tutor-image:latest-arm64-v8 --push .
+          fi
   deploy:
     needs: publish-image
     runs-on:
