@@ -1,4 +1,4 @@
-name: "Publish a GitHub Packages Container to Tutor"
+name: "Deploy Tutor on Raspberry Pi"
 on:
   workflow_dispatch:
   push:
