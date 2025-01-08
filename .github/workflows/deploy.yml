@@ -1,0 +1,70 @@
+name: "Publish a GitHub Packages Container to Tutor"
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: GH Private Key Setup
+        run: |
+          echo "${{ secrets.GH_PRIVATE_KEY }}" > /opt/tutor/private-key.pem
+          chmod 600 private-key.pem
+
+      - name: Create .env file
+        env:
+          GITHUB_OAUTH_SECRET: ${{ secrets.GITHUB_OAUTH_SECRET }}
+          GITHUB_OAUTH_CLIENT_ID: ${{ secrets.GITHUB_OAUTH_CLIENT_ID }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          GH_APP_INSTALL_ID: "52171145"
+          GH_APP_ID: "929272"
+          GH_PRIVATE_KEY_FILE: "private-key.pem"
+          DEBUG: False
+          DATABASE: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+        run: |
+          echo "Creating .env file..."
+          rm -f /opt/tutor/.env
+          touch /opt/tutor/.env
+          FILE=/opt/tutor/.env
+          echo "GITHUB_OAUTH_SECRET=${GITHUB_OAUTH_SECRET}" > ${FILE}
+          echo "GITHUB_OAUTH_CLIENT_ID=${GITHUB_OAUTH_CLIENT_ID}" >> ${FILE}
+          echo "SECRET_KEY=${SECRET_KEY}" >> ${FILE}
+          echo "GH_APP_INSTALL_ID=${GH_APP_INSTALL_ID}" >> ${FILE}
+          echo "GH_APP_ID=${GH_APP_ID}" >> ${FILE}
+          echo "GH_PRIVATE_KEY_FILE=${GH_PRIVATE_KEY_FILE}" >> ${FILE}
+          echo "DEBUG=${DEBUG}" >> ${FILE}
+          echo "DATABASE=${DATABASE}" >> ${FILE}
+          echo "POSTGRES_HOST=${POSTGRES_HOST}" >> ${FILE}
+          echo "POSTGRES_USER=${POSTGRES_USER}" >> ${FILE}
+          echo "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}" >> ${FILE}
+          echo "POSTGRES_DB=${POSTGRES_DB}" >> ${FILE}
+          echo "Done!"
+
+      - name: Send updated docker-compose-prod.yml file
+        run: |
+          echo "Sending updated docker-compose-prod.yml file..."
+          rm -f /opt/tutor/docker-compose-prod.yml
+          cp ./docker-compose-prod.yml /opt/tutor/docker-compose-prod.yml
+      
+      - name: Restart Tutor
+        run: |
+          echo "Restarting Tutor..."
+          cd /opt/tutor
+          docker compose -f docker-compose-prod.yml down
+          docker compose -f docker-compose-prod.yml up -d --build
+          echo "Done!"
+
+    

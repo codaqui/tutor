@@ -1,6 +1,9 @@
 name: "Publish a GitHub Packages Container to Tutor"
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read
