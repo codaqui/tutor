@@ -5,6 +5,7 @@
 private-key.pem
 .pg_service.conf
 .codaqui-intranet-pass
+staticfiles/*
 
 ### Django ###
 *.log
