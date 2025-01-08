@@ -4,6 +4,7 @@ import pytest
 import requests
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+from codaqui.settings import GITHUB_ORGANIZATION, GITHUB_REPOSITORY
 
 from github_service.auth import generate_access_token, generate_jwt_from_app
 from users.models import User
@@ -50,7 +51,7 @@ def invite_user_to_github_team(github_username: str):
         student_id (int): The student's ID.
     """
     logging.info(f"Inviting {github_username} to the GitHub Team")
-    url = f"https://api.github.com/orgs/codaqui/teams/intranet/memberships/{github_username}"
+    url = f"https://api.github.com/orgs/{GITHUB_ORGANIZATION}/teams/intranet/memberships/{github_username}"
     headers = github_headers()
     response = requests.put(url, headers=headers)
     return response
@@ -66,7 +67,7 @@ def verify_membership(github_username: str) -> bool:
     Returns:
         bool: True if the user is a member of the GitHub Team, False otherwise.
     """
-    url = f"https://api.github.com/orgs/codaqui/teams/intranet/memberships/{github_username}"
+    url = f"https://api.github.com/orgs/{GITHUB_ORGANIZATION}/teams/intranet/memberships/{github_username}"
     headers = github_headers()
     response = requests.get(url, headers=headers)
     return response.status_code == 200
@@ -79,7 +80,7 @@ def list_issues():
     Returns:
         list: A list of dictionaries containing information about the issues.
     """
-    url = "https://api.github.com/repos/codaqui/tutor/issues"
+    url = f"https://api.github.com/repos/{GITHUB_ORGANIZATION}/{GITHUB_REPOSITORY}/issues"
     headers = github_headers()
     response = requests.get(url, headers=headers)
     return response.json()
@@ -95,7 +96,7 @@ def get_issue(issue_number: int):
     Returns:
         dict: A dictionary containing information about the issue.
     """
-    url = f"https://api.github.com/repos/codaqui/tutor/issues/{issue_number}"
+    url = f"https://api.github.com/repos/{GITHUB_ORGANIZATION}/{GITHUB_REPOSITORY}/issues/{issue_number}"
     headers = github_headers()
     response = requests.get(url, headers=headers)
     return response.json()
@@ -111,7 +112,7 @@ def assign_user_issue(issue_number: int, assignee: str):
         issue_number (int): The issue number.
         assignee (str): The GitHub username of the assignee.
     """
-    url = f"https://api.github.com/repos/codaqui/tutor/issues/{issue_number}"
+    url = f"https://api.github.com/repos/{GITHUB_ORGANIZATION}/{GITHUB_REPOSITORY}/issues/{issue_number}"
     headers = github_headers()
     data = {"assignees": [assignee]}
     response = requests.patch(url, headers=headers, json=data)
