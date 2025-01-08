@@ -31,10 +31,13 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
   - [ ] Escolher item.
   - [ ] Revisão.
 - [ ] Testes Básicos
+  - [X] Exemplo de Testes
+  - [ ] Aumentar Cobertura
 - [ ] Pré - Deploy - v1
-  - [ ] Lint e iSort do Projeto
-  - [ ] Escolher um Postgres da vida.
-  - [ ] Utilizar o Replit agora é factivel ou vamos para Azure.
+  - [X] Lint e iSort do Projeto
+  - [X] Escolher um Postgres da vida.
+  - [X] Build da Imagem em AMD64 e ARM64.
+  - [X] Deploy na Raspberry PI (Teste) 
 - [ ] Rever fluxos de formulários, verificar se tem como cair em alguma exceção.
 - [ ] Criar página para editar perfil separada, para facilitar manutenção.
 - [ ] Resetar o banco de dados e partir como v1.
@@ -63,16 +66,6 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
 
 ### Criando dotenv 
 
-```.env
-GITHUB_OAUTH_SECRET=""
-GITHUB_OAUTH_CLIENT_ID=""
-SECRET_KEY=""
-GH_APP_INSTALL_ID=""
-GH_APP_ID=""
-DC_TOKEN=""
-DC_VERSION=""
-```
-
 ```bash
 # Execute o comando abaixo para criar o arquivo .env
 cp .env.example .env
@@ -83,25 +76,14 @@ cp .env.example .env
 ### Executando o Projeto
 
 ```bash
-poetry install
-poetry run python manage.py migrate 
-poetry run python manage.py runserver
-```
-
-### Executando o Projeto com Docker
-
-```bash
-# Build the Docker images
-docker-compose build
-
-# Run the Docker containers
-docker-compose up
+docker compose up --build
 ```
 
 ### Criando um Super Usuário
 
 ```bash
-poetry run python manage.py createsuperuser
+# Utilize o Docker Desktop para executar o comando abaixo dentro do container.
+python manage.py createsuperuser
 ```
 
 ### Criando um App
