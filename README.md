@@ -86,6 +86,16 @@ poetry run python manage.py migrate
 poetry run python manage.py runserver
 ```
 
+### Executando o Projeto com Docker
+
+```bash
+# Build the Docker images
+docker-compose build
+
+# Run the Docker containers
+docker-compose up
+```
+
 ### Criando um Super Usuário
 
 ```bash
@@ -109,3 +119,4 @@ poetry run python manage.py makemigrations
 - [Python](https://www.python.org/)
 - [Poetry](https://python-poetry.org/)
 - [Django](https://www.djangoproject.com/)
+- [Docker](https://www.docker.com/)
