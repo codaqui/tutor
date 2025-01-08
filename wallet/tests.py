@@ -30,7 +30,7 @@ class TestWalletModel(TestCase):
 
     def test_wallet_str(self):
         """Test the string representation of the wallet"""
-        assert str(self.wallet) == str(Decimal('100.0'))
+        assert str(self.wallet) == str(Decimal("100.0"))
 
     def test_activities_created(self):
         """Test if activities creation updates the wallet balance"""
