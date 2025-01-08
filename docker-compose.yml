@@ -9,6 +9,12 @@ services:
       - static_files:/app/static
     depends_on:
       - web
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:8000/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 
   web:
     build:
@@ -29,6 +35,11 @@ services:
       && python manage.py runserver 0.0.0.0:8000"
     links:
       - postgres
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:8000/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   postgres:
     image: postgres:17
