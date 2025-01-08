@@ -20,7 +20,7 @@ jobs:
 
       # 2. Fazer o build da imagem
       - name: Build Docker image
-        run: docker build -t tutor-image .
+        run: docker buildx build --platform linux/amd64,linux/arm64/v8 -t tutor-image .
 
       # 3. Enviar a imagem para o GitHub Packages
       - name: Push to GitHub Packages
@@ -86,8 +86,8 @@ jobs:
           sudo rm -f /opt/tutor/docker-compose-prod.yml
           sudo cp ./docker-compose-prod.yml /opt/tutor/docker-compose-prod.yml
       
-      - name: Restart Tutor
+      - name: Restart Tutor (ARM)
         run: |
           echo "Restarting Tutor..."
-          sudo docker compose -f /opt/tutor/docker-compose-prod.yml up -d --force-recreate
+          sudo docker compose -f /opt/tutor/docker-compose-prod.yml up -d --force-recreate --remove-orphans 
           echo "Done!"        
