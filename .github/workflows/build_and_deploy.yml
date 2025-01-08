@@ -62,7 +62,7 @@ jobs:
           GH_APP_ID: "929272"
           GH_PRIVATE_KEY_FILE: "private-key.pem"
           DEBUG: False
-          DATABASE: ${{ secrets.POSTGRES_DB }}
+          DATABASE: "postgres"
           POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
