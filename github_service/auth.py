@@ -1,8 +1,10 @@
+import logging
 import time
+
 import requests
 from jwt import JWT, jwk_from_pem
-from codaqui.settings import GH_PRIVATE_KEY_FILE, GH_APP_ID, GH_APP_INSTALL_ID
-import logging
+
+from codaqui.settings import GH_APP_ID, GH_APP_INSTALL_ID, GH_PRIVATE_KEY_FILE
 
 
 def generate_jwt_from_app():

@@ -15,10 +15,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.urls import path
 from django.contrib import admin
+from django.urls import path
+
 from github_service.apps import GithubServiceConfig
-from github_service.views import view_list_issues, view_get_issue
+from github_service.views import view_get_issue, view_list_issues
 
 app_name = GithubServiceConfig.name
 

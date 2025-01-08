@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from student.models import Student
 
 # Register your custom students functionality here

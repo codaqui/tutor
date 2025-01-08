@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
-from utils.models import get_or_none
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, render
+
 from student.forms import StudentProfileForm
 from student.models import Student
-from django.contrib.auth.decorators import login_required
+from utils.models import get_or_none
 
 # Create your views here.
 

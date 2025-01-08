@@ -1,8 +1,11 @@
+from decimal import Decimal
+
 from django.db import models
-from django.db.models.signals import pre_save, pre_delete
+from django.db.models.signals import pre_delete, pre_save
 from django.dispatch import receiver
-from utils.models import AuditModel
+
 from codaqui.settings import AUTH_USER_MODEL
+from utils.models import AuditModel
 
 # Create your models here.
 
@@ -31,12 +34,20 @@ class Wallet(AuditModel):
     def __str__(self):
         return str(self.balance)
 
-    def credit(self, value):
-        self.balance += value
+    def credit(self, value: Decimal):
+        if type(value) != Decimal:
+            value = Decimal(value)
+        if type(self.balance) != Decimal:
+            self.balance = Decimal(self.balance)
+        self.balance = self.balance + value
         self.save()
 
-    def debit(self, value):
-        self.balance -= value
+    def debit(self, value: Decimal):
+        if type(value) != Decimal:
+            value = Decimal(value)
+        if type(self.balance) != Decimal:
+            self.balance = Decimal(self.balance)
+        self.balance = self.balance - value
         self.save()
 
     @receiver(pre_save, sender=Activities)

@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from wallet.models import Activities, Wallet
 
 # Register your models here.

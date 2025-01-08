@@ -1,10 +1,12 @@
+from datetime import datetime
+
 from django.db import models
+
+from codaqui.settings import AUTH_USER_MODEL
+from github_service.views import invite_user_to_github_team, verify_membership
+from users.models import User
 from utils.models import AuditModel
 from wallet.models import Wallet
-from users.models import User
-from codaqui.settings import AUTH_USER_MODEL
-from datetime import datetime
-from github_service.views import invite_user_to_github_team, verify_membership
 
 # Create your models here.
 

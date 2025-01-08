@@ -1,9 +1,11 @@
+import logging
+
 import pytest
 import requests
-import logging
-from github_service.auth import generate_access_token, generate_jwt_from_app
-from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, render
+
+from github_service.auth import generate_access_token, generate_jwt_from_app
 from users.models import User
 
 

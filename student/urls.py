@@ -1,4 +1,5 @@
 from django.urls import path
+
 from student import views
 from student.apps import StudentConfig
 

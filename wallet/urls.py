@@ -1,4 +1,5 @@
 from django.urls import path
+
 from wallet import views
 from wallet.apps import WalletConfig
 

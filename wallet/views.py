@@ -1,6 +1,7 @@
-from django.shortcuts import render
-from wallet.models import Activities
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+
+from wallet.models import Activities
 
 
 @login_required
