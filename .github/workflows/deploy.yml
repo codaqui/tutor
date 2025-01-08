@@ -22,8 +22,8 @@ jobs:
 
       - name: Create .env file
         env:
-          GITHUB_OAUTH_SECRET: ${{ secrets.GITHUB_OAUTH_SECRET }}
-          GITHUB_OAUTH_CLIENT_ID: ${{ secrets.GITHUB_OAUTH_CLIENT_ID }}
+          GITHUB_OAUTH_SECRET: ${{ secrets.GH_OAUTH_SECRET }}
+          GITHUB_OAUTH_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           GH_APP_INSTALL_ID: "52171145"
           GH_APP_ID: "929272"
