@@ -39,8 +39,9 @@ jobs:
 
       - name: GH Private Key Setup
         run: |
-          echo "${{ secrets.GH_PRIVATE_KEY }}" > /opt/tutor/private-key.pem
-          chmod 600 private-key.pem
+          sudo touch /opt/tutor/private-key.pem
+          sudo echo "${{ secrets.GH_PRIVATE_KEY }}" > /opt/tutor/private-key.pem
+          sudo chmod 600 private-key.pem
 
       - name: Create .env file
         env:
@@ -58,9 +59,10 @@ jobs:
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
         run: |
           echo "Creating .env file..."
-          rm -f /opt/tutor/.env
-          touch /opt/tutor/.env
-          FILE=/opt/tutor/.env
+          sudo rm -f /opt/tutor/.env
+          sudo touch /opt/tutor/.env
+          touch .env
+          FILE=.env
           echo "GITHUB_OAUTH_SECRET=${GITHUB_OAUTH_SECRET}" > ${FILE}
           echo "GITHUB_OAUTH_CLIENT_ID=${GITHUB_OAUTH_CLIENT_ID}" >> ${FILE}
           echo "SECRET_KEY=${SECRET_KEY}" >> ${FILE}
@@ -73,18 +75,18 @@ jobs:
           echo "POSTGRES_USER=${POSTGRES_USER}" >> ${FILE}
           echo "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}" >> ${FILE}
           echo "POSTGRES_DB=${POSTGRES_DB}" >> ${FILE}
+          sudo cp .env /opt/tutor/.env
           echo "Done!"
 
       - name: Send updated docker-compose-prod.yml file
         run: |
           echo "Sending updated docker-compose-prod.yml file..."
-          rm -f /opt/tutor/docker-compose-prod.yml
-          cp ./docker-compose-prod.yml /opt/tutor/docker-compose-prod.yml
+          sudo rm -f /opt/tutor/docker-compose-prod.yml
+          sudo cp ./docker-compose-prod.yml /opt/tutor/docker-compose-prod.yml
       
       - name: Restart Tutor
         run: |
           echo "Restarting Tutor..."
-          cd /opt/tutor
-          docker compose -f docker-compose-prod.yml down
-          docker compose -f docker-compose-prod.yml up -d --build
+          sudo cd /opt/tutor
+          sudo docker compose -f docker-compose-prod.yml up -d --build
           echo "Done!"        
