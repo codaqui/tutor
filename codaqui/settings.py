@@ -31,7 +31,8 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG") == "True"
 
 ALLOWED_HOSTS = [
-    "*"
+    "localhost",
+    "intranet.codaqui.dev",
 ]
 
 # Application definition
