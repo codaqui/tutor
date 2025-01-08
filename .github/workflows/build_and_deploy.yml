@@ -27,6 +27,7 @@ jobs:
       # 2. Fazer o build da imagem e push
       - name: Build and Push Docker image
         run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
           docker buildx build --platform linux/amd64,linux/arm64/v8 -t ghcr.io/${{ github.repository_owner }}/tutor-image:latest --push .
 
   deploy:
