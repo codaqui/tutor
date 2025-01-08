@@ -24,16 +24,10 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # 2. Fazer o build da imagem
-      - name: Build Docker image
-        run: docker buildx build --platform linux/amd64,linux/arm64/v8 -t tutor-image --load .
-
-      # 3. Enviar a imagem para o GitHub Packages
-      - name: Push to GitHub Packages
+      # 2. Fazer o build da imagem e push
+      - name: Build and Push Docker image
         run: |
-          docker tag tutor-image ghcr.io/${{ github.repository_owner }}/tutor-image:latest
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-          docker push ghcr.io/${{ github.repository_owner }}/tutor-image:latest
+          docker buildx build --platform linux/amd64,linux/arm64/v8 -t ghcr.io/${{ github.repository_owner }}/tutor-image:latest --push .
 
   deploy:
     needs: publish-image
