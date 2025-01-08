@@ -14,14 +14,13 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
     - [X] A ativação da conta é feita por uma custom action e automaticamente cria a carteira.
   - [X] Usuário pode consultar seus pontos.
   - [X] Usuário pode consultar histórico de transações na sua conta.
-- [ ] Criar um repositório para salvar as Issues da Intranet.
-  - [ ] Criar um repositório para salvar as Issues da Intranet.
-  - [ ] Criar um repositório para salvar as Issues da Intranet.
+- [X] Criar um repositório para salvar as Issues da Intranet.
+  - Vamos utilizar o proprio repositório do Tutor, ainda não foi definido um padrão.
 - [X] GitHub Service
   - [X] Consumir rotas da API com o App GitHub.
 - [ ] Sistema de Tarefas (Integração com o GitHub)
-  - [ ] Usuário o pode ver as tarefas disponíveis.
-  - [ ] O usuário pode se candidatar a uma tarefa disponível.
+  - [X] Usuário o pode ver as tarefas disponíveis.
+  - [X] O usuário pode se candidatar a uma tarefa disponível.
   - [ ] O usuário pode solicitar ajuda/mais informações sobre a tarefa que está realizando.
   - [ ] O usuário pode concluir (enviar para analise) a tarefa.
   - [ ] O usuário pode saber o resultado da analise.
