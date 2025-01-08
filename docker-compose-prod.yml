@@ -5,7 +5,7 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx.conf:/etc/nginx/nginx.conf
       - static_files:/app/static
     depends_on:
       - web

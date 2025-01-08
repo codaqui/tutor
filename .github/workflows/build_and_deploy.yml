@@ -89,6 +89,12 @@ jobs:
           sudo cp .env /opt/tutor/.env
           echo "Done!"
 
+      - name: Send nxinx.conf file
+        run: |
+          echo "Sending nginx.conf file..."
+          sudo rm -f /opt/tutor/nginx.conf
+          sudo cp ./nginx/nginx.conf /opt/tutor/nginx.conf
+
       - name: Send updated docker-compose-prod.yml file
         run: |
           echo "Sending updated docker-compose-prod.yml file..."
