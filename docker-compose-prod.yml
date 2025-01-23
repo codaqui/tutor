@@ -1,7 +1,7 @@
 services:
 
   nginx:
-    image: nginx:1.21.3
+    image: public.ecr.aws/nginx/nginx:1.27
     ports:
       - "8000:80"
     volumes:
@@ -10,7 +10,7 @@ services:
     depends_on:
       - web
     healthcheck:
-      test: ["CMD-SHELL", "curl --fail http://localhost:8000/ || exit 1"]
+      test: ["CMD-SHELL", "curl --fail http://localhost:80/ || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -24,6 +24,7 @@ services:
         condition: service_healthy
     volumes:
       - static_files:/app/static
+      - ./private-key.pem:/app/private-key.pem
     command: >
       sh -c "python manage.py migrate 
       && python manage.py collectstatic --noinput
