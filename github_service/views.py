@@ -75,7 +75,7 @@ def verify_membership(github_username: str) -> bool:
     return False
 
 
-def list_issues():
+def list_issues() -> list:
     """
     List all issues in the GitHub repository.
 
@@ -154,6 +154,10 @@ def view_get_issue(request, issue_number, action):
 @login_required
 def view_list_issues(request):
     issues = list_issues()
+    issues_len = len(issues)
     logging.info(f"Found {len(issues)} issues")
-    logging.info(f"Issue fields: {issues[0].keys()}")
+    if issues_len > 0:
+        logging.info(f"Issues Keys: {issues[0].keys()}")
+    else:
+        logging.info("No issues found")
     return render(request, "github_service/list_issues.html", {"issues": issues})
