@@ -70,7 +70,9 @@ def verify_membership(github_username: str) -> bool:
     url = f"https://api.github.com/orgs/{GITHUB_ORGANIZATION}/teams/intranet/memberships/{github_username}"
     headers = github_headers()
     response = requests.get(url, headers=headers)
-    return response.status_code == 200
+    if response.status_code == 200 and response.json()["state"] == "active":
+        return True
+    return False
 
 
 def list_issues():

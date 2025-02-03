@@ -11,6 +11,9 @@
             {% if not user.student.is_active %}
                 <p>Para ativar a sua conta, entre em contato via Discord ou WhatsApp com algum moderador, ou <a href="mailto:contato@codaqui.dev">envie um e-mail para nós!</a></p>
             {% else %}
+                {% if not user.student.verify_github_team_membership %}
+                    <p>⚠️ Você ainda não aceitou o convite no GitHub para participar da organização do Codaqui. <a href="https://github.com/codaqui">Aceitar convite.</a></p>
+                {% endif %}
                 <!-- Já possui o pré-cadastro -->
                 {% if user.wallet != "" %}
                     <p>Você tem {{ user.wallet }} CodaPoints disponíveis! Consulte seu <a href="{% url "wallet:wallet_profile" %}">Extrato.</a></p>
