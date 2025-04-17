@@ -9,6 +9,7 @@ services:
       - static_files:/app/static
     depends_on:
       - web
+    restart: always
     healthcheck:
       test: ["CMD-SHELL", "curl --fail http://localhost:80/ || exit 1"]
       interval: 10s
@@ -22,6 +23,7 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    restart: always
     volumes:
       - static_files:/app/static
       - ./private-key.pem:/app/private-key.pem
@@ -46,6 +48,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    restart: always
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
       interval: 10s
