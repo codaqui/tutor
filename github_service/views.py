@@ -82,7 +82,9 @@ def list_issues() -> list:
     Returns:
         list: A list of dictionaries containing information about the issues.
     """
-    url = f"https://api.github.com/repos/{GITHUB_ORGANIZATION}/{GITHUB_REPOSITORY}/issues"
+    url = (
+        f"https://api.github.com/repos/{GITHUB_ORGANIZATION}/{GITHUB_REPOSITORY}/issues"
+    )
     headers = github_headers()
     response = requests.get(url, headers=headers)
     return response.json()
