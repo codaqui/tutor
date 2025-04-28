@@ -48,3 +48,7 @@ class Student(AuditModel):
         if membership:
             self.is_active = True
             self.save()
+        else:
+            self.invite_to_github_team()
+            self.is_active = False
+            self.save()
