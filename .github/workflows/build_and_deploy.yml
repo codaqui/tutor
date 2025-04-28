@@ -34,12 +34,12 @@ jobs:
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
           if [ ${{ matrix.platform }} == "linux/amd64" ]; then
             docker buildx build --platform ${{ matrix.platform }} -t ghcr.io/${{ github.repository_owner }}/tutor-image:latest-amd64 --push .
-            docker buildx build --platform ${{ matrix.platform }} -t ghcr.io/${{ github.repository_owner }}/whatsapp-app:latest-amd64 --push -f ./whatsapp_app/Dockerfile .
-            docker buildx build --platform ${{ matrix.platform }} -t ghcr.io/${{ github.repository_owner }}/whatsapp-api:latest-amd64 --push -f ./whatsapp_api/Dockerfile .
+            docker buildx build --platform ${{ matrix.platform }} -t ghcr.io/${{ github.repository_owner }}/whatsapp-app:latest-amd64 --push -f ./whatsapp_app/Dockerfile whatsapp_app
+            docker buildx build --platform ${{ matrix.platform }} -t ghcr.io/${{ github.repository_owner }}/whatsapp-api:latest-amd64 --push -f ./whatsapp_api/Dockerfile whatsapp_api
           elif [ ${{ matrix.platform }} == "linux/arm64/v8" ]; then
             docker buildx build --platform ${{ matrix.platform }} -t ghcr.io/${{ github.repository_owner }}/tutor-image:latest-arm64-v8 --push .
-            docker buildx build --platform ${{ matrix.platform }} -t ghcr.io/${{ github.repository_owner }}/whatsapp-app:latest-arm64-v8 --push -f ./whatsapp_app/Dockerfile .
-            docker buildx build --platform ${{ matrix.platform }} -t ghcr.io/${{ github.repository_owner }}/whatsapp-api:latest-arm64-v8 --push -f ./whatsapp_api/Dockerfile .
+            docker buildx build --platform ${{ matrix.platform }} -t ghcr.io/${{ github.repository_owner }}/whatsapp-app:latest-arm64-v8 --push -f ./whatsapp_app/Dockerfile whatsapp_app
+            docker buildx build --platform ${{ matrix.platform }} -t ghcr.io/${{ github.repository_owner }}/whatsapp-api:latest-arm64-v8 --push -f ./whatsapp_api/Dockerfile whatsapp_api
           fi
   deploy:
     needs: publish-image
