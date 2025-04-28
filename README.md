@@ -2,6 +2,48 @@
 
 [![Publish a GitHub Packages Container to Tutor and Deploy](https://github.com/codaqui/tutor/actions/workflows/build_and_deploy.yml/badge.svg)](https://github.com/codaqui/tutor/actions/workflows/build_and_deploy.yml)
 
+## Resumo da Estrutura Atual
+
+```mermaid
+flowchart TD
+    A["Serviço: App (Django)"]
+    A1["Apps do Django"]
+    A2["DjangoApp: Core"]
+    A3["DjangoApp: Users"]
+    A4["DjangoApp: Student"]
+    A5["DjangoApp: Wallet"]
+    A6["DjangoApp: GitHub Service"]
+    A7["DjangoApp: Whatsapp Messages"]
+
+    B["Serviço: WhatsappAPI (Express/Baileys)"]
+    C["Serviço: WhatsappApp (FastAPI)"]
+    D["Serviço: NGINX (Proxy Reverso)"]
+    E["Serviço: Postgress (Banco de Dados)"]
+    F["Serviço: Ollama (IA)"]
+    G["Pessoa: intranet.codaqui.dev"]
+    H["WhatsApp"]
+
+    G -->|"CloudFlare"| D
+    D -->|"Requisição"| A
+
+    A -->|"Data"| E
+    A --> A1
+    A1 --> A2
+    A1 --> A3
+    A1 --> A4
+    A1 --> A5
+    A1 --> A6
+    A1 --> A7
+
+    A7 -->|"API"| C
+    C -->|"ACL"| F
+    C -->|"ACL"| B
+    
+    B -->|"Escutando (Pooling)"| H
+    H -->|"Comunica o Evento"| B
+    B -->|"Encaminha o Evento"| C
+```
+
 ## Objetivo
 
 A ideia básica é criar um sistema que o aluno consiga criar sua conta com o GitHub e acessar a intranet da Codaqui.
@@ -80,18 +122,8 @@ cp .env.example .env
 3. Crie um OAuth App para sua Organização.
 4. Crie um App para sua organização.
 
-Preencha as secrets:
+Preencha as secrets do arquivo `.env` com os valores que você obteve.
 
-```bash
-GITHUB_OAUTH_SECRET=""
-GITHUB_OAUTH_CLIENT_ID=""
-GITHUB_ORGANIZATION="<sua_organização>"
-GITHUB_REPOSITORY="<repositorio_de_issues_para_teste>"
-SECRET_KEY=""
-GH_APP_INSTALL_ID=""
-GH_APP_ID=""
-GH_PRIVATE_KEY_FILE="private-key.pem"
-```
 
 ### Executando o Projeto
 
@@ -104,6 +136,26 @@ docker compose up --build
 ```bash
 # Utilize o Docker Desktop para executar o comando abaixo dentro do container.
 python manage.py createsuperuser
+```
+
+#### Alterando seu usuário para super usuário
+
+```bash
+# Acesse o shell do Django
+python manage.py shell
+
+# Acesse o usuário que você deseja alterar
+from users.models import User
+
+# Lista todos os usuários
+users = User.objects.all()
+
+# Altera o usuário para super usuário
+user = User.objects.get(username='<username>')
+user.is_superuser = True
+user.is_staff = True
+user.save()
+
 ```
 
 ### Criando um App
