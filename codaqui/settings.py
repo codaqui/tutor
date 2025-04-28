@@ -49,14 +49,17 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
     # Third party apps
     "social_django",
+
     # Local apps
     "core",
     "users",
     "student",
     "wallet",
     "github_service",
+    "whatsapp_messages",
 ]
 
 MIDDLEWARE = [
@@ -184,7 +187,7 @@ LOGGING = {
 
 # Adapt to Different Environments and GitHub App
 GITHUB_ORGANIZATION = os.getenv("GITHUB_ORGANIZATION", "codaqui")
-GITHUB_REPOSITORY= os.getenv("GITHUB_REPOSITORY", "tutor")
+GITHUB_REPOSITORY = os.getenv("GITHUB_REPOSITORY", "tutor")
 
 # Custom User Model with OAuth
 # https://python-social-auth.readthedocs.io/en/latest/configuration/django.html
