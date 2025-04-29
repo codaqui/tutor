@@ -2,6 +2,9 @@
 
 [![Publish a GitHub Packages Container to Tutor and Deploy](https://github.com/codaqui/tutor/actions/workflows/build_and_deploy.yml/badge.svg)](https://github.com/codaqui/tutor/actions/workflows/build_and_deploy.yml)
 
+![Uptime Robot status](https://img.shields.io/uptimerobot/status/m797028849-ae948a50fc5005f18c1aa197?up_message=Estamos%20online!&up_color=Estamos%20offline!)
+
+
 ## Resumo da Estrutura Atual
 
 ```mermaid
