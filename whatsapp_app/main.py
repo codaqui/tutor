@@ -23,6 +23,12 @@ async def process_event(request: Request):
     """Receives events, processes them using business logic, and logs."""
     try:
         event_data = await request.json()
+
+        # ignore event key.fromMe == true
+        if event_data.get("key", {}).get("fromMe", False):
+            logging.info("Ignoring event from self")
+            return {"status": "ignored", "message": "Event ignored"}
+        
         handle_message(event_data)
         return {
             "status": "success",
