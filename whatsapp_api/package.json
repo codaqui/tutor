@@ -10,10 +10,11 @@
   "license": "MIT",
   "dependencies": {
     "@hapi/boom": "^10.0.1",
-    "baileys": "^6.17.16",
     "axios": "^1.9.0",
+    "baileys": "^6.17.16",
     "body-parser": "^1.20.2",
     "express": "^5.1.0",
+    "mongodb": "^6.16.0",
     "pino": "^8.19.0",
     "qrcode-terminal": "^0.12.0"
   },

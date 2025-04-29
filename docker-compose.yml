@@ -98,6 +98,22 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  
+  mongo:
+    container_name: mongo
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - app-network
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "mongo --eval 'db.adminCommand(\"ping\")'"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   ollama:
     container_name: ollama
@@ -118,3 +134,4 @@ volumes:
   static_files:
   whatsapp_auth_data:
   ollama: {}
+  mongo_data:
