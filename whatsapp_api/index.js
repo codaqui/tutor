@@ -1,5 +1,16 @@
 // Import necessary modules from the Baileys library for WhatsApp interaction
-const { default: makeWASocket, useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion } = require('baileys');
+// Use a namespace import for Baileys
+const { default: makeWASocket, 
+        DisconnectReason, 
+        fetchLatestBaileysVersion, 
+        useMultiFileAuthState, 
+        makeInMemoryStore, 
+        proto, 
+        BufferJSON,
+        initAuthCreds } = require('baileys');
+
+const mongoAuthState = require('./mongoAuthState'); // Import the MongoDB auth state handler
+const { MongoClient } = require('mongodb'); // Import MongoClient for the clearMongoIfNeeded function
 
 // Import module to generate QR codes in the terminal
 const qrcode = require('qrcode-terminal');
@@ -26,6 +37,12 @@ const axios = require('axios');
 const localePath = path.join(__dirname, 'locales', 'pt-BR.json');
 const localeData = JSON.parse(fs.readFileSync(localePath, 'utf8'));
 
+// --- Add MongoDB connection details (ideally from environment variables) ---
+const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017'; // Replace with your MongoDB URL
+const MONGO_DB_NAME = process.env.MONGO_DB_NAME || 'whatsapp_api'; // Replace with your desired DB name
+// --- End MongoDB connection details ---
+
+
 // Helper function to get localized strings with variable substitution
 function t(key, variables = {}) {
     // Retrieve the translation for the given key, defaulting to the key itself if not found
@@ -42,89 +59,170 @@ function t(key, variables = {}) {
  * Handles authentication, QR code generation, connection events, and message receiving.
  */
 async function connectToWhatsApp() {
-    // Use multi-file authentication state to store credentials persistently
-    const { state, saveCreds } = await useMultiFileAuthState(path.join(__dirname, 'auth_info_baileys'));
-    // Fetch the latest version of Baileys
-    const { version, isLatest } = await fetchLatestBaileysVersion();
-    console.log(t('whatsapp.version', { version: version.join('.'), isLatest }));
+    // Use MongoDB authentication state instead of multi-file
+    console.log(t('mongo.connecting', { url: MONGO_URL, db: MONGO_DB_NAME }));
 
-    // Create a new WhatsApp socket instance
-    const sock = makeWASocket({
-        version,
-        printQRInTerminal: true, // Automatically print QR code to terminal if needed
-        auth: state, // Provide the authentication state
-        logger: require('pino')({ level: 'silent' }) // Configure logger level (silent, info, debug)
-    });
+    try {
+        await clearMongoIfNeeded();
+        
+        // Pass proto and BufferJSON explicitly
+        const { state, saveCreds, clearCreds } = await mongoAuthState(proto, BufferJSON, MONGO_URL, MONGO_DB_NAME);
+        
+        // Fetch the latest version of Baileys
+        const { version, isLatest } = await fetchLatestBaileysVersion();
+        console.log(t('whatsapp.version', { version: version.join('.'), isLatest }));
 
-    // Handle QR code display if the user is not registered yet
-    if (!sock.authState.creds.registered) {
-        console.log(t('qrcode.scan'));
-        // qrcode-terminal handles the display in the terminal
+        console.log("\n===========================================");
+        console.log(t('connection.starting'));
+        console.log(t('connection.qr_coming'));
+        console.log("===========================================\n");
+
+        // Create a new WhatsApp socket instance with recommended settings
+        const sock = makeWASocket({
+            version,
+            auth: state,
+            printQRInTerminal: true,
+            connectTimeoutMs: 60000,
+            qrTimeout: 60000,
+            browser: ['Chrome', 'Desktop', '10.0'],
+            logger: require('pino')({ level: 'silent' }) // Reduce log noise
+        });
+
+        // Listen for connection updates
+        sock.ev.on('connection.update', async (update) => {
+            const { connection, lastDisconnect, qr } = update;
+            
+            if (qr) {
+                console.log("\n===========================================");
+                console.log(t('connection.qr_ready'));
+                console.log("===========================================\n");
+            }
+            
+            if (connection) {
+                console.log(t('connection.status', { status: connection }));
+            }
+            
+            if (connection === 'close') {
+                const statusCode = lastDisconnect?.error?.output?.statusCode;
+                const shouldReconnect = statusCode !== DisconnectReason.loggedOut;
+                
+                console.log(t('connection.closed', { reason: lastDisconnect?.error?.message || 'sem detalhes' }));
+                
+                if (shouldReconnect) {
+                    console.log(t('connection.reconnecting'));
+                    setTimeout(connectToWhatsApp, 3000);
+                } else {
+                    console.log(t('connection.logout'));
+                    await clearCreds();
+                }
+            }
+            
+            if (connection === 'open') {
+                console.log("\n===========================================");
+                console.log(t('connection.success'));
+                console.log(t('connection.connected_as', { user: sock.user?.id || 'Desconhecido' }));
+                console.log("===========================================\n");
+            }
+        });
+        
+        // Listen for credential updates
+        sock.ev.on('creds.update', saveCreds);
+        
+        // Listen for incoming messages
+        sock.ev.on('messages.upsert', async m => {
+            // Log the message type in a more structured way
+            console.log("\n===========================================");
+            console.log(t('message.received', { type: m.type }));
+
+            // Enhanced logging for 'notify' type messages
+            if (m.type === 'notify' && m.messages && m.messages.length > 0) {
+                const msg = m.messages[0];                
+                // Log sender details without exposing full message content
+                const senderJid = msg.key.remoteJid;
+                const senderId = msg.key.participant || senderJid;
+                // Try to get sender's name from contact name or extract from JID
+                const senderName = msg.pushName || senderId.split('@')[0];
+                // Get recipient info (could be a group or individual)
+                const recipient = senderJid.includes('@g.us') ? 'grupo' : 'chat privado';
+                // Determine the message type
+                const messageType = Object.keys(msg.message || {}).join(', ') || 'desconhecido';
+                // Check if it's a group message
+                const isGroup = senderJid.includes('@g.us') ? 'sim' : 'não';
+                // Format timestamp
+                const timestamp = new Date(msg.messageTimestamp * 1000).toLocaleString('pt-BR');
+                
+                // Log detailed but secure information about the message
+                console.log(t('message.notify_received', { 
+                    senderName,
+                    senderId: senderId.split('@')[0], // Remove the @s.whatsapp.net part
+                    recipient 
+                }));
+                console.log(t('message.message_type', { messageType }));
+                console.log(t('message.group_message', { isGroup }));
+                console.log(t('message.timestamp', { timestamp }));
+                
+                // Process only messages not sent by the bot itself
+                if (!msg.key.fromMe) {
+                    // Example of automated response processing
+                    // Extract the text content from the message
+                    const messageText = msg.message?.conversation || 
+                                        msg.message?.extendedTextMessage?.text || 
+                                        '';
+                    
+                    // Check if the message matches a specific trigger phrase
+                    if (messageText.toLowerCase() === 'oi, eu preciso de ajuda!') {
+                        console.log(t('message.received_help_request', { remoteJid: senderJid }));
+                        // Send a predefined response
+                        await sock.sendMessage(senderJid, { text: t('message.help_response') });
+                        console.log(t('message.replied_to', { remoteJid: senderJid }));
+                    }
+                }
+            }
+
+            // Send the raw event to the logger service
+            const eventLoggerUrl = process.env.EVENT_LOGGER_URL;
+            if (eventLoggerUrl) {
+                try {
+                    await axios.post(eventLoggerUrl, m);
+                    console.log(t('event.sent_to_logger'));
+                } catch (error) {
+                    console.error(t('event.error_sending_to_logger', { error: error.message || error }));
+                }
+            }
+            console.log("===========================================\n");
+        });
+
+        return sock;
+    } catch (error) {
+        console.error(t('error.connecting', { error: error.message || error }));
+        console.log(t('error.retry', { seconds: 5 }));
+        setTimeout(connectToWhatsApp, 5000);
     }
+}
 
-    // Listen for connection updates
-    sock.ev.on('connection.update', (update) => {
-        const { connection, lastDisconnect, qr } = update;
-        // If a QR code is received, display it in the terminal
-        if (qr) {
-            console.log(t('qrcode.received'));
-            qrcode.generate(qr, { small: true }); // Generate a smaller QR code
+// Helper function to clear MongoDB if error condition persists
+let errorCount = 0;
+async function clearMongoIfNeeded() {
+    try {
+        const client = new MongoClient(MONGO_URL);
+        await client.connect();
+        const db = client.db(MONGO_DB_NAME);
+        const collection = db.collection('baileys_auth_state');
+        
+        // If we've had multiple errors, clear the database
+        if (errorCount > 2) {
+            console.log(t('mongo.clearing'));
+            await collection.deleteMany({});
+            console.log(t('mongo.cleared'));
+            errorCount = 0;
+        } else {
+            errorCount++;
         }
-        // Handle connection close events
-        if (connection === 'close') {
-            // Check if reconnection is needed (i.e., not logged out)
-            const shouldReconnect = (lastDisconnect.error instanceof Boom) && lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut;
-            console.log(t('connection.closed'), lastDisconnect.error, t('connection.reconnecting'), shouldReconnect);
-            // Reconnect if the disconnection was not due to logging out
-            if (shouldReconnect) {
-                connectToWhatsApp();
-            } else {
-                console.log(t('connection.closed_logout'));
-                // Optional: Clean up authentication files upon logout
-                // fs.rmdirSync(path.join(__dirname, 'auth_info_baileys'), { recursive: true });
-            }
-        // Handle successful connection opening
-        } else if (connection === 'open') {
-            console.log(t('connection.opened'));
-        }
-    });
-
-    // Listen for credential updates and save them
-    sock.ev.on('creds.update', saveCreds);
-
-    // Listen for incoming messages
-    sock.ev.on('messages.upsert', async m => {
-        // console.log(JSON.stringify(m, undefined, 2)); // Uncomment to log the full message structure
-
-        // Send the raw event to the logger service
-        const eventLoggerUrl = process.env.EVENT_LOGGER_URL;
-        if (eventLoggerUrl) {
-            try {
-                await axios.post(eventLoggerUrl, m);
-                console.log(t('event.sent_to_logger'));
-            } catch (error) {
-                console.error(t('event.error_sending_to_logger'), error.message || error);
-            }
-        }
-        // const msg = m.messages[0];
-        // Save example.
-        // // Process only messages not sent by the bot itself and of type 'notify'
-        // if (!msg.key.fromMe && m.type === 'notify') {
-        //     console.log(t('message.replying_to'), msg.key.remoteJid);
-        //     // Extract the text content from the message
-        //     const messageText = msg.message?.conversation || msg.message?.extendedTextMessage?.text;
-        //     // Check if the message matches a specific trigger phrase
-        //     if (messageText === 'Oi, eu preciso de ajuda!') {
-        //         console.log(t('message.received_help_request', { remoteJid: msg.key.remoteJid }));
-        //         // Send a predefined response
-        //         await sock.sendMessage(msg.key.remoteJid, { text: t('message.help_response') });
-        //         console.log(t('message.replied_to', { remoteJid: msg.key.remoteJid }));
-        //     }
-        // }
-    });
-
-    // Return the initialized socket instance
-    return sock;
+        
+        await client.close();
+    } catch (err) {
+        console.error(t('mongo.error_checking', { error: err.message || err }));
+    }
 }
 
 /**
@@ -162,7 +260,7 @@ function setupApi(sock) {
             // Respond with success
             res.status(200).json({ success: true, message: t('api.success.text_sent') });
         } catch (error) {
-            console.error(t('api.error.sending_text'), error);
+            console.error(t('api.error.sending_text', { error: error.message || error }));
             // Respond with error - Consider more specific error handling if needed
             res.status(500).json({ success: false, error: t('api.fail.sending_text') });
         }
@@ -188,7 +286,7 @@ function setupApi(sock) {
             // Respond with success
             res.status(200).json({ success: true, message: t('api.success.image_sent') });
         } catch (error) {
-            console.error(t('api.error.sending_image'), error);
+            console.error(t('api.error.sending_image', { error: error.message || error }));
             // Respond with error
             res.status(500).json({ success: false, error: t('api.fail.sending_image') });
         }
@@ -214,7 +312,7 @@ function setupApi(sock) {
             // Respond with success
             res.status(200).json({ success: true, message: t('api.success.video_sent') });
         } catch (error) {
-            console.error(t('api.error.sending_video'), error);
+            console.error(t('api.error.sending_video', { error: error.message || error }));
             // Respond with error
             res.status(500).json({ success: false, error: t('api.fail.sending_video') });
         }
@@ -242,7 +340,7 @@ function setupApi(sock) {
             // Respond with success
             res.status(200).json({ success: true, message: t('api.success.audio_sent') });
         } catch (error) {
-            console.error(t('api.error.sending_audio'), error);
+            console.error(t('api.error.sending_audio', { error: error.message || error }));
             // Respond with error
             res.status(500).json({ success: false, error: t('api.fail.sending_audio') });
         }
@@ -262,4 +360,4 @@ connectToWhatsApp()
         setupApi(sock);
     })
     // Catch and log any errors during the connection process
-    .catch(err => console.log(t('error.unexpected'), err));
+    .catch(err => console.log(t('error.unexpected', { error: err })));
