@@ -160,23 +160,6 @@ async function connectToWhatsApp() {
                 console.log(t('message.message_type', { messageType }));
                 console.log(t('message.group_message', { isGroup }));
                 console.log(t('message.timestamp', { timestamp }));
-                
-                // Process only messages not sent by the bot itself
-                if (!msg.key.fromMe) {
-                    // Example of automated response processing
-                    // Extract the text content from the message
-                    const messageText = msg.message?.conversation || 
-                                        msg.message?.extendedTextMessage?.text || 
-                                        '';
-                    
-                    // Check if the message matches a specific trigger phrase
-                    if (messageText.toLowerCase() === 'oi, eu preciso de ajuda!') {
-                        console.log(t('message.received_help_request', { remoteJid: senderJid }));
-                        // Send a predefined response
-                        await sock.sendMessage(senderJid, { text: t('message.help_response') });
-                        console.log(t('message.replied_to', { remoteJid: senderJid }));
-                    }
-                }
             }
 
             // Send the raw event to the logger service
