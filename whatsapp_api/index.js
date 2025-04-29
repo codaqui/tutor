@@ -1,5 +1,5 @@
 // Import necessary modules from the Baileys library for WhatsApp interaction
-const { default: makeWASocket, useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion } = require('@whiskeysockets/baileys');
+const { default: makeWASocket, useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion } = require('baileys');
 
 // Import module to generate QR codes in the terminal
 const qrcode = require('qrcode-terminal');
