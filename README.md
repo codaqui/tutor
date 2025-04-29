@@ -25,6 +25,7 @@ flowchart TD
     F["Serviço: Ollama (IA)"]
     G["Pessoa: intranet.codaqui.dev"]
     H["WhatsApp"]
+    I["MongoDB (Banco de Dados)"]
 
     G -->|"CloudFlare"| D
     D -->|"Requisição"| A
@@ -45,6 +46,7 @@ flowchart TD
     B -->|"Escutando (Pooling)"| H
     H -->|"Comunica o Evento"| B
     B -->|"Encaminha o Evento"| C
+    B -->|"Autenticações"| I
 ```
 
 ## Objetivo
