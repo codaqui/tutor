@@ -9,8 +9,10 @@ const { default: makeWASocket,
         BufferJSON,
         initAuthCreds } = require('baileys');
 
-const mongoAuthState = require('./mongoAuthState'); // Import the MongoDB auth state handler
-const { MongoClient } = require('mongodb'); // Import MongoClient for the clearMongoIfNeeded function
+const { createConnectionManager } = require('./connection-manager'); // Import our connection manager
+
+const postgresAuthState = require('./postgresAuthState'); // Import the PostgreSQL auth state handler
+const { Pool } = require('pg'); // Import Pool from pg for the clearDBIfNeeded function
 
 // Import module to generate QR codes in the terminal
 const qrcode = require('qrcode-terminal');
@@ -37,10 +39,11 @@ const axios = require('axios');
 const localePath = path.join(__dirname, 'locales', 'pt-BR.json');
 const localeData = JSON.parse(fs.readFileSync(localePath, 'utf8'));
 
-// --- Add MongoDB connection details (ideally from environment variables) ---
-const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017'; // Replace with your MongoDB URL
-const MONGO_DB_NAME = process.env.MONGO_DB_NAME || 'whatsapp_api'; // Replace with your desired DB name
-// --- End MongoDB connection details ---
+// --- Add PostgreSQL connection details (ideally from environment variables) ---
+const PG_URL = process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost:5432/intranet';
+const PG_SCHEMA = process.env.PG_SCHEMA || 'public';
+const PG_TABLE = process.env.PG_TABLE || 'baileys_auth_state';
+// --- End PostgreSQL connection details ---
 
 
 // Helper function to get localized strings with variable substitution
@@ -54,19 +57,22 @@ function t(key, variables = {}) {
     return translation;
 }
 
+// Create a connection manager instance to handle reconnections
+const connectionManager = createConnectionManager();
+
 /**
  * Establishes and manages the connection to WhatsApp Web.
  * Handles authentication, QR code generation, connection events, and message receiving.
  */
 async function connectToWhatsApp() {
-    // Use MongoDB authentication state instead of multi-file
-    console.log(t('mongo.connecting', { url: MONGO_URL, db: MONGO_DB_NAME }));
+    // Use PostgreSQL authentication state
+    console.log(t('postgres.connecting'));
 
     try {
-        await clearMongoIfNeeded();
+        await clearDBIfNeeded();
         
         // Pass proto and BufferJSON explicitly
-        const { state, saveCreds, clearCreds } = await mongoAuthState(proto, BufferJSON, MONGO_URL, MONGO_DB_NAME);
+        const { state, saveCreds, clearCreds } = await postgresAuthState(proto, BufferJSON, PG_URL, PG_SCHEMA, PG_TABLE);
         
         // Fetch the latest version of Baileys
         const { version, isLatest } = await fetchLatestBaileysVersion();
@@ -77,18 +83,39 @@ async function connectToWhatsApp() {
         console.log(t('connection.qr_coming'));
         console.log("===========================================\n");
 
-        // Create a new WhatsApp socket instance with recommended settings
+        // Create a new WhatsApp socket instance with improved connection settings
         const sock = makeWASocket({
             version,
             auth: state,
             printQRInTerminal: true,
-            connectTimeoutMs: 60000,
+            connectTimeoutMs: 120000, // Increased timeout for initial connection
             qrTimeout: 60000,
             browser: ['Chrome', 'Desktop', '10.0'],
-            logger: require('pino')({ level: 'silent' }) // Reduce log noise
+            logger: require('pino')({ 
+                level: process.env.LOG_LEVEL || 'silent',
+                transport: {
+                    target: 'pino-pretty',
+                    options: {
+                        colorize: true
+                    }
+                }
+            }),
+            // Enhanced WebSocket configuration
+            customUploadHosts: [],
+            markOnlineOnConnect: true, // Mark as online when connected
+            retryRequestDelayMs: 5000, // Wait longer between retries
+            maxRetryRequestCount: 10, // More retry attempts
+            syncFullHistory: false, // Don't sync full history which can cause timeouts
+            // More aggressive keepalive to prevent connection drops
+            keepAliveIntervalMs: 5000,
+            // Handle connection termination better
+            emitOwnEvents: true,
+            // Additional options to prevent timeouts
+            defaultQueryTimeoutMs: 60000,
+            getMessage: async () => { return { conversation: '' } }
         });
 
-        // Listen for connection updates
+        // Listen for connection updates with improved error handling
         sock.ev.on('connection.update', async (update) => {
             const { connection, lastDisconnect, qr } = update;
             
@@ -103,17 +130,46 @@ async function connectToWhatsApp() {
             }
             
             if (connection === 'close') {
-                const statusCode = lastDisconnect?.error?.output?.statusCode;
+                // Extract the detailed error information
+                const error = lastDisconnect?.error;
+                const statusCode = error?.output?.statusCode;
                 const shouldReconnect = statusCode !== DisconnectReason.loggedOut;
                 
-                console.log(t('connection.closed', { reason: lastDisconnect?.error?.message || 'sem detalhes' }));
+                // Detailed error logging
+                if (error) {
+                    console.log('Connection closed with error:', JSON.stringify({
+                        name: error.name,
+                        message: error.message,
+                        statusCode: statusCode,
+                        output: error.output
+                    }, null, 2));
+                }
+                
+                // Log detailed error information for better debugging
+                console.log(t('connection.closed', { 
+                    reason: error ? `${error.name || 'Error'}: ${error.message}` : 'WebSocket Closed (Timeout or network issue)'
+                }));
                 
                 if (shouldReconnect) {
                     console.log(t('connection.reconnecting'));
-                    setTimeout(connectToWhatsApp, 3000);
+                    
+                    // Use our connection manager for intelligent reconnection handling
+                    connectionManager.handleConnectionError(error, connectToWhatsApp);
+                    
+                    // Clear the table if we've had multiple consecutive failures
+                    if (connectionManager.getReconnectCount() > 5) {
+                        try {
+                            console.log('Clearing auth state due to persistent connection issues...');
+                            await clearCreds();
+                            connectionManager.resetReconnectCount();
+                        } catch (clearError) {
+                            console.error('Failed to clear auth state:', clearError);
+                        }
+                    }
                 } else {
                     console.log(t('connection.logout'));
                     await clearCreds();
+                    connectionManager.resetReconnectCount();
                 }
             }
             
@@ -122,6 +178,9 @@ async function connectToWhatsApp() {
                 console.log(t('connection.success'));
                 console.log(t('connection.connected_as', { user: sock.user?.id || 'Desconhecido' }));
                 console.log("===========================================\n");
+                
+                // Reset connection manager on successful connection
+                connectionManager.onSuccessfulConnection();
             }
         });
         
@@ -183,28 +242,72 @@ async function connectToWhatsApp() {
     }
 }
 
-// Helper function to clear MongoDB if error condition persists
+// Helper function to clear PostgreSQL if error condition persists
 let errorCount = 0;
-async function clearMongoIfNeeded() {
+async function clearDBIfNeeded() {
     try {
-        const client = new MongoClient(MONGO_URL);
-        await client.connect();
-        const db = client.db(MONGO_DB_NAME);
-        const collection = db.collection('baileys_auth_state');
+        const pool = new Pool({
+            connectionString: PG_URL
+        });
+        
+        // Test connection first
+        const client = await pool.connect();
+        client.release();
+        console.log(t('postgres.connected_for_auth'));
         
         // If we've had multiple errors, clear the database
         if (errorCount > 2) {
-            console.log(t('mongo.clearing'));
-            await collection.deleteMany({});
-            console.log(t('mongo.cleared'));
-            errorCount = 0;
+            console.log(t('postgres.clearing'));
+            try {
+                await pool.query(`DELETE FROM ${PG_SCHEMA}.${PG_TABLE}`);
+                console.log(t('postgres.cleared'));
+                errorCount = 0;
+            } catch (clearError) {
+                console.error(t('postgres.error_clearing', { error: clearError.message }));
+                // If table doesn't exist yet, that's fine
+                if (!clearError.message.includes('does not exist')) {
+                    throw clearError;
+                }
+            }
         } else {
             errorCount++;
         }
         
-        await client.close();
+        await pool.end();
+        return true;
     } catch (err) {
-        console.error(t('mongo.error_checking', { error: err.message || err }));
+        console.error(t('postgres.error_checking', { error: err.message || err }));
+        return false;
+    }
+}
+
+// Helper function to gracefully restart the WhatsApp connection
+async function restartWhatsApp() {
+    console.log(t('connection.restarting'));
+    try {
+        // Clear the database entirely to start fresh
+        const pool = new Pool({
+            connectionString: PG_URL
+        });
+        
+        try {
+            await pool.query(`DROP TABLE IF EXISTS ${PG_SCHEMA}.${PG_TABLE}`);
+            console.log(t('postgres.table_dropped'));
+        } catch (dropError) {
+            console.error(t('postgres.error_dropping_table', { error: dropError.message }));
+        }
+        
+        await pool.end();
+        
+        // Reset error count
+        errorCount = 0;
+        
+        // Restart after a short delay
+        setTimeout(connectToWhatsApp, 5000);
+    } catch (error) {
+        console.error(t('error.restarting', { error: error.message || error }));
+        // Try again after a longer delay
+        setTimeout(connectToWhatsApp, 15000);
     }
 }
 
