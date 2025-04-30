@@ -53,12 +53,27 @@
   "error.unexpected": "⚠️ Erro inesperado: ${error}",
   "error.connecting": "❗ Erro ao conectar: ${error}",
   "error.retry": "🔄 Tentando novamente em ${seconds} segundos...",
+  "error.restarting": "❗ Erro ao reiniciar a aplicação: ${error}",
+  
+  "connection.restarting": "🔄 Reiniciando conexão com o WhatsApp...",
   
   "mongo.connecting": "🔄 Conectando ao ${url} com o banco de dados ${db}...",
   "mongo.creds_cleared": "🗑️ Credenciais de autenticação limpas do MongoDB.",
   "mongo.clearing": "🗑️ Múltiplas falhas detectadas, limpando banco de dados...",
   "mongo.cleared": "🆕 Banco de dados limpo para nova autenticação.",
   "mongo.error_checking": "❗ Erro ao verificar MongoDB: ${error}",
+  
+  "postgres.connecting": "🔄 Conectando ao PostgreSQL...",
+  "postgres.connected": "✅ Conectado com sucesso ao PostgreSQL para autenticação",
+  "postgres.connected_for_auth": "✅ Conectado ao PostgreSQL para verificação",
+  "postgres.connection_failed": "❌ Falha ao conectar ao PostgreSQL para autenticação: ${error}",
+  "postgres.creds_cleared": "🗑️ Credenciais de autenticação limpas do PostgreSQL.",
+  "postgres.clearing": "🗑️ Múltiplas falhas detectadas, limpando tabela do PostgreSQL...",
+  "postgres.cleared": "🆕 Tabela do PostgreSQL limpa para nova autenticação.",
+  "postgres.error_checking": "❗ Erro ao verificar PostgreSQL: ${error}",
+  "postgres.error_clearing": "❗ Erro ao limpar dados do PostgreSQL: ${error}",
+  "postgres.table_dropped": "🗑️ Tabela do PostgreSQL removida com sucesso",
+  "postgres.error_dropping_table": "❗ Erro ao remover tabela do PostgreSQL: ${error}",
   
   "message.received": "📩 Mensagem recebida - Tipo: ${type}",
   "message.notify_received": "📫 Nova mensagem recebida de ${senderName} (${senderId}) para ${recipient}",
