@@ -68,8 +68,6 @@ services:
     image: ghcr.io/codaqui/whatsapp-api:latest-arm64-v8
     ports:
       - "3000:3000"
-    volumes:
-      - whatsapp_auth_data:/usr/src/app/auth_info_baileys
     environment:
       - EVENT_LOGGER_URL=http://whatsapp-app:8000/events
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
@@ -111,5 +109,4 @@ networks:
 volumes:
   postgres_data:
   static_files:
-  whatsapp_auth_data:
   ollama: {}
