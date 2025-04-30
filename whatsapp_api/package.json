@@ -4,6 +4,8 @@
   "description": "Whatsapp API using Baileys for Codaqui",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -14,11 +16,12 @@
     "baileys": "^6.17.16",
     "body-parser": "^1.20.2",
     "express": "^5.1.0",
-    "mongodb": "^6.16.0",
+    "pg": "^8.11.3",
     "pino": "^8.19.0",
     "qrcode-terminal": "^0.12.0"
   },
   "devDependencies": {
-    "@cspell/dict-pt-br": "^2.4.0"
+    "@cspell/dict-pt-br": "^2.4.0",
+    "pino-pretty": "^13.0.0"
   }
 }
