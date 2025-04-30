@@ -78,7 +78,7 @@ services:
       - whatsapp_auth_data:/usr/src/app/auth_info_baileys
     environment:
       - EVENT_LOGGER_URL=http://whatsapp-app:8000/events
-      - MONGO_URL=mongodb://mongo:27017
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
     networks:
       - app-network
     restart: always
