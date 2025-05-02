@@ -2,6 +2,8 @@
 
 [![Publish a GitHub Packages Container to Tutor and Deploy](https://github.com/codaqui/tutor/actions/workflows/build_and_deploy.yml/badge.svg)](https://github.com/codaqui/tutor/actions/workflows/build_and_deploy.yml)
 
+![Uptime Robot status](https://img.shields.io/uptimerobot/status/m797028849-ae948a50fc5005f18c1aa197?up_message=Estamos%20online!&up_color=Estamos%20offline!)
+
 ## 🛠️ Resumo da Estrutura Atual
 
 ```mermaid
@@ -22,6 +24,7 @@ flowchart TD
     F["Serviço: Ollama (IA)"]
     G["Pessoa: intranet.codaqui.dev"]
     H["WhatsApp"]
+    I["MongoDB (Banco de Dados)"]
 
     G -->|"CloudFlare"| D
     D -->|"Requisição"| A
@@ -42,6 +45,7 @@ flowchart TD
     B -->|"Escutando (Pooling)"| H
     H -->|"Comunica o Evento"| B
     B -->|"Encaminha o Evento"| C
+    B -->|"Autenticações"| I
 ```
 
 ## 📌 Objetivo

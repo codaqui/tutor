@@ -8,8 +8,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install app dependencies
-# Use --only=production if you don't need devDependencies
-RUN npm install
+RUN npm install --only=production
 
 # Bundle app source
 COPY . .
