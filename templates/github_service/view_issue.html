@@ -20,6 +20,10 @@
         <p>Esse problema ainda não está assignado, você pode ajudar!</p>
         <a href="{% url 'github_service:get_issue' issue_number=issue.number action='auto_assigne' %}">Estou apto, quero resolver!</a>
     {% endif %}
+    <a href="{% url 'github_service:comments_issue' issue_number=issue.number %}">Ir para comentarios do problema(Ajuda, ideais de melhoria, entre outros).</a>
+    
    <hr>
+   
+
 
 {% endblock %}

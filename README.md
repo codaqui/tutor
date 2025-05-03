@@ -69,7 +69,7 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
 - [❌] Sistema de Tarefas (Integração com o GitHub)
   - [✅] Usuário o pode ver as tarefas disponíveis.
   - [✅] O usuário pode se candidatar a uma tarefa disponível.
-  - [❌] O usuário pode solicitar ajuda/mais informações sobre a tarefa que está realizando.
+  - [✅] O usuário pode solicitar ajuda/mais informações sobre a tarefa que está realizando.
   - [❌] O usuário pode concluir (enviar para analise) a tarefa.
   - [❌] O usuário pode saber o resultado da analise.
 - [❌] Atualizar a Wallet para poder associar uma Issue na transação. (opcional)
