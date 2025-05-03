@@ -269,3 +269,11 @@ Agora você pode usar o modelo criado no banco de dados SQLite3 sem precisar de 
 - [Poetry](https://python-poetry.org/)
 - [Django](https://www.djangoproject.com/)
 - [Docker](https://www.docker.com/)
+
+## ✨ ENDPOINTS utilizadas 
+
+- [GitHub](https://docs.github.com/en/rest/issues?apiVersion=2022-11-28)  -- (github_service)
+- [Whatsapp](#)  -- Não estudei sua documentação([Elias Miranda](https://github.com/ArtumosGOC)), mais informações entrar em contato com o [Enderson Menezes](https://github.com/endersonmenezes).
+
+
+
