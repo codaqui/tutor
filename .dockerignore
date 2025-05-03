@@ -1,7 +1,7 @@
 # Docker Ignore Files
 # https://docs.docker.com/engine/reference/builder/#dockerignore-file
-
 .env
 .git
 .gitignore
 private-key.pem
+**/node_modules
