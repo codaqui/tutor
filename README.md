@@ -107,9 +107,10 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
 
 ### 🎥 Como usar o projeto (vídeo)
 
-Para entender como utilizar o projeto, assista ao vídeo prático de instalação e uso
+`Para entender como utilizar o projeto, assista ao vídeo prático de instalação e uso, clicando na imagem a baixo.`
 
-➡️  [Vídeo prático para instalação e uso](https://www.youtube.com/watch?v=0SDqCDb57HM)
+[![Vídeo prático para instalação e uso](https://i.postimg.cc/RV9rCCxs/LOGO.png)](https://www.youtube.com/watch?v=0SDqCDb57HM)
+
 
 ### 🔑 Criando dotenv 
 
