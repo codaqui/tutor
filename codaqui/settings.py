@@ -204,4 +204,9 @@ SOCIAL_AUTH_GITHUB_SECRET = os.getenv("GITHUB_OAUTH_SECRET")
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = (
     os.getenv("SOCIAL_AUTH_REDIRECT_IS_HTTPS", "True") == "True"
 )
-# SOCIAL_AUTH_GITHUB_SCOPE = ["user:email"]
+SOCIAL_AUTH_GITHUB_SCOPE = [
+    "read:user",
+    "user:follow",
+    "user:email",
+    "repo"
+]
