@@ -18,6 +18,14 @@ def github_headers():
     }
 
 
+def github_user_headers(user: User):
+    github_token = user.get_github_token()
+    return {
+        "Authorization": f"Bearer {github_token}",
+        "Accept": "application/vnd.github+json",
+    }
+
+
 def github_headers_with_json():
     jwt_token = generate_jwt_from_app()
     return {
@@ -134,7 +142,7 @@ def list_comments(issue_number: int) -> list:
     response = requests.get(url, headers=headers)
     return response.json() 
 
-def create_comment(issue_number: int, comment: str):
+def create_comment(issue_number: int, comment: str, user: User):
     """
     Creates a comment on an issue.
 
@@ -143,14 +151,14 @@ def create_comment(issue_number: int, comment: str):
         comment (str): The comment text.
     """
     url = f"https://api.github.com/repos/{GITHUB_ORGANIZATION}/{GITHUB_REPOSITORY}/issues/{issue_number}/comments"
-    headers = github_headers_with_json()
+    headers = github_user_headers(user)
     data = {"body": comment}
     response = requests.post(url, headers=headers, json=data)
     return response   
 
 
 @login_required
-def view_get_issue(request, issue_number, action):
+def view_issue_controller(request, issue_number, action):
     valid_actions = ["view", "auto_assigne"]
     if action == "view":
         issue = get_issue(issue_number)
@@ -162,7 +170,7 @@ def view_get_issue(request, issue_number, action):
         assignee = user_action.get_github_username()
         response = assign_user_issue(issue_number, assignee)
         if response.status_code == 200:
-            return redirect("github_service:get_issue", issue_number, "view")
+            return redirect("github_service:issue_controller", issue_number, "view")
         else:
             logging.error(f"Error assigning issue #{issue_number} to {assignee}")
             logging.error(f"Response: {response.json()}")
@@ -180,7 +188,7 @@ def view_get_issue(request, issue_number, action):
 
 
 @login_required
-def view_list_issues(request):
+def view_issue_list(request):
     issues = list_issues()
     issues_len = len(issues)
     logging.info(f"Found {len(issues)} issues")
@@ -191,12 +199,12 @@ def view_list_issues(request):
     return render(request, "github_service/list_issues.html", {"issues": issues})
 
 @login_required
-def view_comments_issue(request, issue_number):
+def view_issue_comment_controller(request, issue_number):
     if request.method == "POST":
         comment = request.POST.get("comment")
-        response = create_comment(issue_number, comment)
+        response = create_comment(issue_number, comment, request.user)
         if response.status_code == 201:
-            return redirect("github_service:create_comment", issue_number=issue_number)
+            return redirect("github_service:issue_comments_controller", issue_number=issue_number)
         else:
             logging.error(f"Error creating comment on issue #{issue_number}")
             logging.error(f"Response: {response.json()}")

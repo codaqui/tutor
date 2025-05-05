@@ -19,14 +19,16 @@ from django.contrib import admin
 from django.urls import path
 
 from github_service.apps import GithubServiceConfig
-from github_service.views import view_get_issue, view_list_issues,view_comments_issue
+from github_service.views import view_issue_controller, view_issue_list, view_issue_comment_controller
 
 app_name = GithubServiceConfig.name
 
 urlpatterns = [
-    path("list-issues/", view_list_issues, name="list_issues"),
+    path("list-issues/", view_issue_list, name="list_issues"),
     path(
-        "get-issue/<int:issue_number>/<str:action>/", view_get_issue, name="get_issue"
+        "issue/<int:issue_number>/<str:action>/", view_issue_controller, name="issue_controller"
     ),
-    path("issues/<int:issue_number>/comments/", view_comments_issue, name="comments_issue"),
+    path(
+        "issue/comments/<int:issue_number>/", view_issue_comment_controller, name="issue_comments_controller"
+    ),
 ]
