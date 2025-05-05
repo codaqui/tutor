@@ -18,7 +18,7 @@
             <p>Assignado para: <span style="color: red;">Ninguém</span>, esse problema pode ser seu!</p>
         {% endif %}
         <hr>
-        <a href="{% url 'github_service:get_issue' issue_number=issue.number action='view' %}"> Quero saber mais!</a>
+        <a href="{% url 'github_service:issue_controller' issue_number=issue.number action='view' %}"> Quero saber mais!</a>
         <hr>
     </div>
     {% endfor %}

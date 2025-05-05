@@ -9,3 +9,6 @@ class User(AbstractUser):
 
     def get_github_username(self) -> str:
         return self.get_github_data().extra_data.get("login")
+    
+    def get_github_token(self) -> str:
+        return self.get_github_data().extra_data.get("access_token")

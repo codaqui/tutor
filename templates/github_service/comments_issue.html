@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Comentários da Issue #{{ issue_number }}</h1>
+
+<!-- Formulário para adicionar comentário -->
+<form method="post">
+    {% csrf_token %}
+    <label for="comment">Adicionar Comentário:</label><br>
+    <textarea id="comment" name="comment" rows="5" cols="50" placeholder="Escreva seu comentário aqui..."></textarea>
+    <br><br>
+    <button type="submit">Adicionar Comentário</button>
+</form>
+
+<hr>
+
+<!-- Lista de comentários -->
+<h2>Comentários Existentes</h2>
+{% if comments %}
+    <ul>
+        {% for comment in comments %}
+            <li>
+                <p><strong>{{ comment.user.login }}</strong> comentou:</p>
+                <p>{{ comment.body }}</p>
+                <p><small>Data: {{ comment.created_at }}</small></p>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Não há comentários para esta issue.</p>
+{% endif %}
+
+<!-- Link para voltar à lista de issues -->
+<p><a href="{% url 'github_service:list_issues' %}">Voltar para a lista de issues</a></p>
+{% endblock %}

@@ -15,11 +15,13 @@
     <hr>
     {% if issue.assignee %}
         <p>Esse problema já está assignado para alguém, mas você pode ajudar!</p>
-        <p> Acesse diretamente o <a href="{{ issue.assignee.html_url }}">a Issue</a> e converse com a pessoa assignada!</p>
+        <a href="{% url 'github_service:issue_comments_controller' issue_number=issue.number %}">Ir para comentarios do problema(Ajuda, ideais de melhoria, entre outros).</a>
     {% else %}
         <p>Esse problema ainda não está assignado, você pode ajudar!</p>
-        <a href="{% url 'github_service:get_issue' issue_number=issue.number action='auto_assigne' %}">Estou apto, quero resolver!</a>
-    {% endif %}
+        <a href="{% url 'github_service:issue_controller' issue_number=issue.number action='auto_assigne' %}">Estou apto, quero resolver!</a>
+    {% endif %}    
    <hr>
+   
+
 
 {% endblock %}

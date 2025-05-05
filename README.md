@@ -69,7 +69,7 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
 - [❌] Sistema de Tarefas (Integração com o GitHub)
   - [✅] Usuário o pode ver as tarefas disponíveis.
   - [✅] O usuário pode se candidatar a uma tarefa disponível.
-  - [❌] O usuário pode solicitar ajuda/mais informações sobre a tarefa que está realizando.
+  - [✅] O usuário pode solicitar ajuda/mais informações sobre a tarefa que está realizando.
   - [❌] O usuário pode concluir (enviar para analise) a tarefa.
   - [❌] O usuário pode saber o resultado da analise.
 - [❌] Atualizar a Wallet para poder associar uma Issue na transação. (opcional)
@@ -111,9 +111,10 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
 
 ### 🎥 Como usar o projeto (vídeo)
 
-Para entender como utilizar o projeto, assista ao vídeo prático de instalação e uso
+`Para entender como utilizar o projeto, assista ao vídeo prático de instalação e uso, clicando na imagem a baixo.`
 
-➡️  [Vídeo prático para instalação e uso](https://www.youtube.com/watch?v=0SDqCDb57HM)
+[![Vídeo prático para instalação e uso](https://i.postimg.cc/RV9rCCxs/LOGO.png)](https://www.youtube.com/watch?v=0SDqCDb57HM)
+
 
 ### 🔑 Criando dotenv 
 
@@ -268,3 +269,11 @@ Agora você pode usar o modelo criado no banco de dados SQLite3 sem precisar de 
 - [Poetry](https://python-poetry.org/)
 - [Django](https://www.djangoproject.com/)
 - [Docker](https://www.docker.com/)
+
+## ✨ ENDPOINTS utilizadas 
+
+- [GitHub](https://docs.github.com/en/rest/issues?apiVersion=2022-11-28)  -- (github_service)
+- [Whatsapp](#)  -- Não estudei sua documentação([Elias Miranda](https://github.com/ArtumosGOC)), mais informações entrar em contato com o [Enderson Menezes](https://github.com/endersonmenezes).
+
+
+
