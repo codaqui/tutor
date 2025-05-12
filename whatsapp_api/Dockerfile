@@ -10,6 +10,9 @@ COPY package*.json ./
 # Install app dependencies
 RUN npm install --only=production
 
+# Install curl to maintain a health check
+RUN apt-get update && apt-get install -y curl
+
 # Bundle app source
 COPY . .
 
