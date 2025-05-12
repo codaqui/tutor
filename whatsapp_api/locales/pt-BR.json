@@ -46,6 +46,7 @@
   "api.fail.sending_audio": "❌ Falha ao enviar mensagem de áudio.",
   
   "api.log.listening": "🚀 API de automação rodando na porta ${port}",
+  "api.log.health_check_requested": "🔍 Verificação de saúde da API solicitada",
   "api.fail.not_connected": "❌ Falha: Não foi possível enviar a mensagem pois o serviço não está conectado ao WhatsApp.",
   "api.error.invalid_jid": "❌ Erro: JID inválido ou não existe no WhatsApp: ${jid}",
   "api.fail.invalid_jid": "❌ Falha: O JID ${jid} fornecido é inválido ou não existe no WhatsApp.",

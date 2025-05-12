@@ -294,7 +294,7 @@ async function restartWhatsApp() {
             await pool.query(`DROP TABLE IF EXISTS ${PG_SCHEMA}.${PG_TABLE}`);
             console.log(t('postgres.table_dropped'));
         } catch (dropError) {
-            console.error(t('postgres.error_dropping_table', { error: dropError.message }));
+            console.error(t('postgres.error.dropping_table', { error: dropError.message }));
         }
         
         await pool.end();
@@ -430,6 +430,29 @@ function setupApi(sock) {
             // Respond with error
             res.status(500).json({ success: false, error: t('api.fail.sending_audio') });
         }
+    });
+
+    // API endpoint for health check
+    app.get('/health', (req, res) => {
+        console.log(t('api.log.health_check_requested'));
+        // Check if WhatsApp connection is active
+        const isConnected = sock.user !== undefined;
+        // Prepare health status response
+        const healthStatus = {
+            status: isConnected ? 'healthy' : 'degraded',
+            whatsapp: {
+                connected: isConnected,
+                user: isConnected ? sock.user?.id : null
+            },
+            api: {
+                status: 'online',
+                timestamp: new Date().toISOString()
+            }
+        };
+        
+        // Send appropriate status code based on WhatsApp connection
+        const statusCode = isConnected ? 200 : 200; // Still 200 even if WhatsApp is disconnected as API is working
+        res.status(statusCode).json(healthStatus);
     });
 
     // Start the API server and listen on the specified port
