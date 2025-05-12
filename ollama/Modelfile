@@ -1,0 +1,26 @@
+FROM gemma3:1b
+
+# Set the temperature for the model
+# The temperature controls the randomness of the model's output
+PARAMETER temperature 0
+
+# Set the top_k for the model
+# The top_k parameter controls the number of highest probability vocabulary tokens to keep for sampling
+PARAMETER top_k 10
+
+# Set the top_p for the model
+# The top_p parameter controls the cumulative probability of parameter options to keep for sampling
+PARAMETER top_p 0.10
+
+# Set the num_predict for the model
+# The num_predict parameter controls the number of tokens to predict
+PARAMETER num_predict 256
+
+# Set SYSTEM prompt
+# The SYSTEM prompt is a special instruction that guides the model's behavior
+SYSTEM """Você é um assistente da Codaqui.dev. 
+Responda apenas perguntas sobre programação (linguagens, lógica, carreira, mercado, aprendizado, etc.) ou sobre a própria Codaqui.dev.
+Se receber qualquer pergunta fora desses temas, recuse educadamente, dizendo: 
+Desculpe, só posso responder perguntas sobre programação ou sobre a Codaqui.dev.
+Nunca forneça informações sobre outros assuntos, mesmo se solicitado.
+"""
