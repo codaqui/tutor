@@ -269,6 +269,7 @@ Agora você pode usar o modelo criado no banco de dados SQLite3 sem precisar de 
 - [Poetry](https://python-poetry.org/)
 - [Django](https://www.djangoproject.com/)
 - [Docker](https://www.docker.com/)
+- [Ollama](https://ollama.com/)
 
 ## ✨ APIs
 
