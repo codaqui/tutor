@@ -263,17 +263,18 @@ poetry run python manage.py makemigrations
 Agora você pode usar o modelo criado no banco de dados SQLite3 sem precisar de Docker. 😊
 
 
-## ✨ Tecnologia
+## ✨ Tecnologia (Stack)
 
 - [Python](https://www.python.org/)
 - [Poetry](https://python-poetry.org/)
 - [Django](https://www.djangoproject.com/)
 - [Docker](https://www.docker.com/)
 
-## ✨ ENDPOINTS utilizadas 
+## ✨ APIs
 
-- [GitHub](https://docs.github.com/en/rest/issues?apiVersion=2022-11-28)  -- (github_service)
-- [Whatsapp](#)  -- Não estudei sua documentação([Elias Miranda](https://github.com/ArtumosGOC)), mais informações entrar em contato com o [Enderson Menezes](https://github.com/endersonmenezes).
+Abaixo estão os endpoints que foram utilizados para o projeto, caso tenha interesse em estudar mais sobre eles, acesse os links abaixo:
 
+- [GitHub](https://docs.github.com/en/rest/issues?apiVersion=2022-11-28) -- (github_service)
+- [WhatsApp using Baileys](https://baileys.wiki/docs/intro)
 
 
