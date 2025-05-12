@@ -270,6 +270,7 @@ Agora você pode usar o modelo criado no banco de dados SQLite3 sem precisar de 
 - [Django](https://www.djangoproject.com/)
 - [Docker](https://www.docker.com/)
 - [Ollama](https://ollama.com/)
+  - [Modelfile](https://github.com/ollama/ollama/blob/main/docs/modelfile.md)
 
 ## ✨ APIs
 
