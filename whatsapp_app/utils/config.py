@@ -2,7 +2,7 @@ NODEJS_WHATSAPP_API_URL = "http://whatsapp-api:3000"
 
 # Ollama Configuration
 OLLAMA_API_URL = "http://ollama:11434/api/generate"
-MODEL_NAME = "qwen2.5:0.5b"
+MODEL_NAME = "codaqui"
 
 # Authorized AI Users
 AUTHORIZED_USERS = [
