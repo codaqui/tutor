@@ -36,10 +36,12 @@ jobs:
             docker buildx build --platform ${{ matrix.platform }} -t ghcr.io/${{ github.repository_owner }}/tutor-image:latest-amd64 --push .
             docker buildx build --platform ${{ matrix.platform }} -t ghcr.io/${{ github.repository_owner }}/whatsapp-app:latest-amd64 --push -f ./whatsapp_app/Dockerfile whatsapp_app
             docker buildx build --platform ${{ matrix.platform }} -t ghcr.io/${{ github.repository_owner }}/whatsapp-api:latest-amd64 --push -f ./whatsapp_api/Dockerfile whatsapp_api
+            docker buildx build --platform ${{ matrix.platform }} -t ghcr.io/${{ github.repository_owner }}/ollama:latest-amd64 --push -f ./ollama/Dockerfile ollama
           elif [ ${{ matrix.platform }} == "linux/arm64/v8" ]; then
             docker buildx build --platform ${{ matrix.platform }} -t ghcr.io/${{ github.repository_owner }}/tutor-image:latest-arm64-v8 --push .
             docker buildx build --platform ${{ matrix.platform }} -t ghcr.io/${{ github.repository_owner }}/whatsapp-app:latest-arm64-v8 --push -f ./whatsapp_app/Dockerfile whatsapp_app
             docker buildx build --platform ${{ matrix.platform }} -t ghcr.io/${{ github.repository_owner }}/whatsapp-api:latest-arm64-v8 --push -f ./whatsapp_api/Dockerfile whatsapp_api
+            docker buildx build --platform ${{ matrix.platform }} -t ghcr.io/${{ github.repository_owner }}/ollama:latest-arm64-v8 --push -f ./ollama/Dockerfile ollama
           fi
   deploy:
     needs: publish-image

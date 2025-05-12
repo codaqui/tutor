@@ -99,7 +99,7 @@ services:
 
   ollama:
     container_name: ollama
-    build: ./ollama
+    image: ghcr.io/codaqui/ollama:latest-arm64-v8
     volumes:
       - ollama:/root/.ollama
     tty: true
