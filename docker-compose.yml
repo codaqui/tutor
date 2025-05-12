@@ -80,6 +80,11 @@ services:
     networks:
       - app-network
     restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:3000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   whatsapp-app:
     container_name: whatsapp_app
@@ -100,7 +105,7 @@ services:
 
   ollama:
     container_name: ollama
-    image: ollama/ollama:latest
+    build: ./ollama
     volumes:
       - ollama:/root/.ollama
     tty: true
