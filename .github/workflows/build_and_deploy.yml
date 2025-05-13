@@ -112,5 +112,6 @@ jobs:
           sudo docker pull ghcr.io/codaqui/tutor-image:latest-arm64-v8
           sudo docker pull ghcr.io/codaqui/whatsapp-app:latest-arm64-v8
           sudo docker pull ghcr.io/codaqui/whatsapp-api:latest-arm64-v8
+          sudo docker pull ghcr.io/codaqui/ollama:latest-arm64-v8
           sudo docker compose -f /opt/tutor/docker-compose-prod.yml up -d --force-recreate --remove-orphans 
           echo "Done!"        
