@@ -114,4 +114,10 @@ jobs:
           sudo docker pull ghcr.io/codaqui/whatsapp-api:latest-arm64-v8
           sudo docker pull ghcr.io/codaqui/ollama:latest-arm64-v8
           sudo docker compose -f /opt/tutor/docker-compose-prod.yml up -d --force-recreate --remove-orphans 
-          echo "Done!"        
+          echo "Done!"
+          
+      -  name: Prune old images
+         run: |
+           echo "Pruning old images..."
+           sudo docker image prune -f
+           echo "Done!"
