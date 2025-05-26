@@ -1,13 +1,19 @@
 # https://www.dolthub.com/blog/2025-03-19-a-pull-first-ollama-docker-image/
-FROM archlinux:base
+FROM ollama/ollama:latest AS ollama
 
-# Install Ollama using pacman (https://archlinux.org/packages/extra/x86_64/ollama/)
-RUN pacman -Syu --noconfirm && \
-    pacman -S --noconfirm ollama && \
-    pacman -S --noconfirm curl
+# Alpine Linux base image
+FROM alpine:latest
 
+# Copy the Ollama binary and necessary files from the ollama stage
+COPY --from=ollama /usr/bin/ollama /usr/bin/ollama
+
+# Add packages needed for Ollama to run
+RUN apk add --no-cache libstdc++ 
+
+# Ollama configuration
 ENV OLLAMA_KEEP_ALIVE=24h
 
+# Make custom entrypoint script executable
 COPY ./entrypoint.sh /entrypoint.sh
 COPY ./Modelfile /Modelfile
 RUN chmod +x /entrypoint.sh
