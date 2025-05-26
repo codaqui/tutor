@@ -1,4 +1,4 @@
-FROM public.ecr.aws/docker/library/python:3.13-slim
+FROM public.ecr.aws/docker/library/python:3.13-alpine
 
 # Set the working directory
 WORKDIR /app
@@ -7,13 +7,15 @@ WORKDIR /app
 COPY . /app
 
 # Install curl for healthcheck
-RUN apt-get update && apt-get install -y curl
+RUN apk update && apk add --no-cache curl && \ 
+    pip install --upgrade pip setuptools wheel
 
-# Install any needed packages specified in Poetry
-RUN pip install --upgrade pip
+# Install Poetry and dependencies
 RUN pip install poetry
-RUN poetry config virtualenvs.create false
-RUN poetry install --no-root
+
+# Faster build pip on alpine
+RUN poetry config virtualenvs.create false && \
+    poetry install --no-root --without dev
 
 # Expose the port the app runs on
 EXPOSE 8000

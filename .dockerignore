@@ -5,3 +5,12 @@
 .gitignore
 private-key.pem
 **/node_modules
+
+# Another Projects
+whatsapp_api/*
+whatsapp_app/*
+ollama/*
+
+# Docker-compose
+docker-compose.yml
+docker-compose-prod.yml
