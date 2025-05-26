@@ -1,9 +1,12 @@
 # https://www.dolthub.com/blog/2025-03-19-a-pull-first-ollama-docker-image/
-FROM ollama/ollama:latest
+FROM archlinux:base
+
+# Install Ollama using pacman (https://archlinux.org/packages/extra/x86_64/ollama/)
+RUN pacman -Syu --noconfirm && \
+    pacman -S --noconfirm ollama && \
+    pacman -S --noconfirm curl
 
 ENV OLLAMA_KEEP_ALIVE=24h
-
-RUN apt-get update -y && apt-get install curl -y
 
 COPY ./entrypoint.sh /entrypoint.sh
 COPY ./Modelfile /Modelfile

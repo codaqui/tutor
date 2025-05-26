@@ -110,6 +110,8 @@ services:
       - ollama:/root/.ollama
     tty: true
     restart: always
+    ports:
+      - "11435:11434"
     networks:
       - app-network
 
