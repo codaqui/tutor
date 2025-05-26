@@ -8,44 +8,98 @@
 
 ```mermaid
 flowchart TD
-    A["Serviço: App (Django)"]
-    A1["Apps do Django"]
-    A2["DjangoApp: Core"]
-    A3["DjangoApp: Users"]
-    A4["DjangoApp: Student"]
-    A5["DjangoApp: Wallet"]
-    A6["DjangoApp: GitHub Service"]
-    A7["DjangoApp: Whatsapp Messages"]
+    %% Intranet Infrastructure
+    subgraph "User & Proxy Layer"
+        direction TB
+        Browser["Web Browser"]:::external
+        CloudFlare["CloudFlare CDN"]:::infra
+        NGINX["NGINX Reverse Proxy"]:::infra
+    end
 
-    B["Serviço: WhatsappAPI (Express/Baileys)"]
-    C["Serviço: WhatsappApp (FastAPI)"]
-    D["Serviço: NGINX (Proxy Reverso)"]
-    E["Serviço: Postgress (Banco de Dados)"]
-    F["Serviço: Ollama (IA)"]
-    G["Pessoa: intranet.codaqui.dev"]
-    H["WhatsApp"]
-    I["MongoDB (Banco de Dados)"]
+    %% Django Service
+    subgraph "Django Intranet Service" 
+        direction TB
+        DjangoEntry["ASGI/WSGI Entrypoints"]:::backend
+        subgraph "Django Apps"
+            direction TB
+            CoreApp["Core Module"]:::backend
+            UsersApp["Users Module"]:::backend
+            StudentApp["Student Module"]:::backend
+            WalletApp["Wallet Module"]:::backend
+            GitHubSvcApp["GitHub Service Module"]:::backend
+            WhatsAppMsgApp["WhatsApp Messages Module"]:::backend
+        end
+        SharedTemplates["Shared Django Templates"]:::backend
+    end
 
-    G -->|"CloudFlare"| D
-    D -->|"Requisição"| A
+    %% Microservices Layer
+    subgraph "Microservices"
+        direction TB
+        WhatsAppApp["whatsapp_app (FastAPI + Ollama)"]:::microservice
+        WhatsAppAPI["whatsapp_api (Express + Baileys)"]:::microservice
+        Ollama["Ollama AI Service"]:::microservice
+    end
 
-    A -->|"Data"| E
-    A --> A1
-    A1 --> A2
-    A1 --> A3
-    A1 --> A4
-    A1 --> A5
-    A1 --> A6
-    A1 --> A7
+    %% Datastores
+    subgraph "Datastores"
+        direction TB
+        PostgresDb["Postgres Database"]:::database
+        MongoDB["MongoDB Session Store"]:::database
+    end
 
-    A7 -->|"API"| C
-    C -->|"ACL"| F
-    C -->|"ACL"| B
-    
-    B -->|"Escutando (Pooling)"| H
-    H -->|"Comunica o Evento"| B
-    B -->|"Encaminha o Evento"| C
-    B -->|"Autenticações"| I
+    %% External Services
+    subgraph "External APIs"
+        direction TB
+        GitHubAPI["GitHub REST API"]:::external
+        WhatsAppNetwork["WhatsApp Network"]:::external
+    end
+
+    %% CI/CD & Infra Config
+    subgraph "Infrastructure Config & CI/CD"
+        direction TB
+        DockerCompose["Docker Compose Configs"]:::infra
+        CICDWorkflows["GitHub Actions Workflows"]:::infra
+    end
+
+    %% Connections
+    Browser -->|"HTTP/HTTPS"| CloudFlare
+    CloudFlare -->|"HTTP/HTTPS"| NGINX
+    NGINX -->|"WSGI/ASGI"| DjangoEntry
+    DjangoEntry -->|"ORM CRUD"| PostgresDb
+    GitHubSvcApp -->|"OAuth & Issues"| GitHubAPI
+    WhatsAppMsgApp -->|"REST/Webhook"| WhatsAppApp
+    WhatsAppApp -->|"ACL & Completions"| Ollama
+    WhatsAppApp -->|"Queue Messages"| WhatsAppAPI
+    WhatsAppAPI -->|"WS/WebSocket"| WhatsAppNetwork
+    WhatsAppAPI -->|"Auth Session"| MongoDB
+    DockerCompose --> DjangoEntry
+    DockerCompose --> WhatsAppApp
+    DockerCompose --> WhatsAppAPI
+    DockerCompose --> Ollama
+    CICDWorkflows --> DockerCompose
+
+    %% Click Events
+    click NGINX "https://github.com/codaqui/tutor/blob/main/nginx/nginx.conf"
+    click DjangoEntry "https://github.com/codaqui/tutor/blob/main/codaqui/asgi.py"
+    click CoreApp "https://github.com/codaqui/tutor/tree/main/core/"
+    click UsersApp "https://github.com/codaqui/tutor/tree/main/users/"
+    click StudentApp "https://github.com/codaqui/tutor/tree/main/student/"
+    click WalletApp "https://github.com/codaqui/tutor/tree/main/wallet/"
+    click GitHubSvcApp "https://github.com/codaqui/tutor/tree/main/github_service/"
+    click WhatsAppMsgApp "https://github.com/codaqui/tutor/tree/main/whatsapp_messages/"
+    click SharedTemplates "https://github.com/codaqui/tutor/tree/main/templates/"
+    click DockerCompose "https://github.com/codaqui/tutor/blob/main/docker-compose.yml"
+    click CICDWorkflows "https://github.com/codaqui/tutor/blob/main/.github/workflows/build_and_deploy.yml"
+    click WhatsAppAPI "https://github.com/codaqui/tutor/tree/main/whatsapp_api/"
+    click WhatsAppApp "https://github.com/codaqui/tutor/blob/main/whatsapp_app/main.py"
+    click Ollama "https://github.com/codaqui/tutor/tree/main/ollama/Dockerfile"
+
+    %% Styles
+    classDef external fill:#f9f,stroke:#333,stroke-width:1px
+    classDef infra fill:#bbf,stroke:#333,stroke-width:1px
+    classDef backend fill:#bfb,stroke:#333,stroke-width:1px
+    classDef microservice fill:#fbf,stroke:#333,stroke-width:1px
+    classDef database fill:#ffb,stroke:#333,stroke-width:1px
 ```
 
 ## 📌 Objetivo
