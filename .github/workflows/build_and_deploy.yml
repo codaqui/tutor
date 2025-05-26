@@ -118,6 +118,6 @@ jobs:
           
       -  name: Prune old images
          run: |
-           echo "Pruning old images..."
-           sudo docker image prune -f
+           echo "Pruning old things..."
+           sudo docker system prune -a -f
            echo "Done!"
