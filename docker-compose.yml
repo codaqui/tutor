@@ -31,6 +31,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      whatsapp-app:
+        condition: service_healthy
     volumes:
       - static_files:/app/static
       # Debug Mode
@@ -114,6 +116,11 @@ services:
       - "11435:11434"
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:11434/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 networks:
   app-network:
