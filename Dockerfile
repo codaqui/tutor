@@ -15,7 +15,7 @@ RUN pip install poetry
 
 # Faster build pip on alpine
 RUN poetry config virtualenvs.create false && \
-    poetry install --no-root --without dev
+    poetry install --no-root
 
 # Expose the port the app runs on
 EXPOSE 8000
