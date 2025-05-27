@@ -2,6 +2,26 @@ import requests
 from utils.config import NODEJS_WHATSAPP_API_URL
 from utils.locales import locales
 
+def requests_options():
+    """
+    Returns the options for the requests library, including headers and timeout settings.
+    
+    Returns:
+        dict: Options for requests.
+    """
+    return {
+        "headers": {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        },
+        "timeout": 120,  # seconds
+        "retry": {
+            "total": 3,  # Total number of retries
+            "backoff_factor": 0.3,  # Backoff factor for retries
+            "status_forcelist": [500, 502, 503, 504],  # HTTP status codes to retry on
+        }
+    }
+
 
 def send_message_via_whatsapp_api(phone_number, message):
     """
@@ -18,7 +38,7 @@ def send_message_via_whatsapp_api(phone_number, message):
     payload = {"jid": f"{phone_number}@s.whatsapp.net", "message": message}
 
     try:
-        response = requests.post(url, json=payload)
+        response = requests.post(url, json=payload, **requests_options())
         response.raise_for_status()  # Raise an error for bad responses
         return response.json()
     except requests.RequestException as e:
@@ -46,7 +66,7 @@ def send_image_via_whatsapp_api(phone_number, url, caption=None):
     }
 
     try:
-        response = requests.post(api_url, json=payload)
+        response = requests.post(api_url, json=payload, **requests_options())
         response.raise_for_status()  # Raise an error for bad responses
         return response.json()
     except requests.RequestException as e:
@@ -74,7 +94,7 @@ def send_video_via_whatsapp_api(phone_number, url, caption=None):
     }
 
     try:
-        response = requests.post(api_url, json=payload)
+        response = requests.post(api_url, json=payload, **requests_options())
         response.raise_for_status()  # Raise an error for bad responses
         return response.json()
     except requests.RequestException as e:
@@ -99,7 +119,7 @@ def send_audio_via_whatsapp_api(phone_number, url, ptt=False):
     payload = {"jid": f"{phone_number}@s.whatsapp.net", "url": url, "ptt": ptt}
 
     try:
-        response = requests.post(api_url, json=payload)
+        response = requests.post(api_url, json=payload, **requests_options())
         response.raise_for_status()  # Raise an error for bad responses
         return response.json()
     except requests.RequestException as e:
