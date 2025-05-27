@@ -2,23 +2,29 @@
 FROM ollama/ollama:latest AS ollama
 
 # Alpine Linux base image
-FROM alpine:latest
+FROM debian:stable-slim
 
-# Copy the Ollama binary and necessary files from the ollama stage
-COPY --from=ollama /usr/bin/ollama /usr/bin/ollama
+# Set the working directory
+WORKDIR /app
 
-# Add packages needed for Ollama to run
-RUN apk add --no-cache libstdc++ 
+# Adiciona pacotes essenciais e gcompat para compatibilidade com glibc
+# Adicionado strace para facilitar o debugging, caso necessário
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    ca-certificates \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
-# Ollama configuration
-ENV OLLAMA_KEEP_ALIVE=24h
+# Copia o binário do Ollama e arquivos necessários do estágio ollama
+COPY --from=ollama /bin/ollama /usr/bin/ollama
+# COPY --from=ollama /lib/ollama /lib/ollama
 
-# Make custom entrypoint script executable
-COPY ./entrypoint.sh /entrypoint.sh
-COPY ./Modelfile /Modelfile
-RUN chmod +x /entrypoint.sh
+# Copia arquivos de modelo e entrypoint
+COPY ./Modelfile /app/Modelfile
+COPY ./entrypoint.sh /app/entrypoint.sh
 
-ENTRYPOINT [ "/entrypoint.sh" ]
+RUN chmod +x /app/entrypoint.sh /usr/bin/ollama
+
 EXPOSE 11434
 
-CMD ["serve"]
+ENTRYPOINT ["/app/entrypoint.sh"]
