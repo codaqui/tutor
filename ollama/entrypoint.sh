@@ -66,4 +66,4 @@ echo "✅ Servidor Ollama temporário desligado com sucesso"
 # Iniciar o Ollama em primeiro plano na porta correta (para que o contêiner continue rodando)
 echo "🚀 Iniciando servidor Ollama principal em 0.0.0.0:11434..."
 export OLLAMA_HOST=0.0.0.0:11434
-exec /usr/bin/ollama serve
+exec /usr/bin/ollama serve 

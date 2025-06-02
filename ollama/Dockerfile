@@ -19,6 +19,11 @@ RUN apt-get update && \
 COPY --from=ollama /bin/ollama /usr/bin/ollama
 # COPY --from=ollama /lib/ollama /lib/ollama
 
+# Ollama ENVs
+ENV OLLAMA_NUM_PARALLEL=1 \
+    OLLAMA_MAX_QUEUE=10 \
+    OLLAMA_KV_CACHE_TYPE="q4_0"
+
 # Copia arquivos de modelo e entrypoint
 COPY ./Modelfile /app/Modelfile
 COPY ./entrypoint.sh /app/entrypoint.sh
