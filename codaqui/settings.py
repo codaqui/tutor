@@ -32,13 +32,13 @@ DEBUG = os.getenv("DEBUG") == "True"
 
 ALLOWED_HOSTS = [
     "localhost",
-    #"127.0.0.1",
+    # "127.0.0.1",
     "intranet.codaqui.dev",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://intranet.codaqui.dev",
-    #"127.0.0.1:8000",
+    # "127.0.0.1:8000",
     "http://localhost:8000",
 ]
 # Application definition
@@ -51,10 +51,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     # Third party apps
     "social_django",
-
     # Local apps
     "core",
     "users",
@@ -204,9 +202,4 @@ SOCIAL_AUTH_GITHUB_SECRET = os.getenv("GITHUB_OAUTH_SECRET")
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = (
     os.getenv("SOCIAL_AUTH_REDIRECT_IS_HTTPS", "True") == "True"
 )
-SOCIAL_AUTH_GITHUB_SCOPE = [
-    "read:user",
-    "user:follow",
-    "user:email",
-    "repo"
-]
+SOCIAL_AUTH_GITHUB_SCOPE = ["read:user", "user:follow", "user:email", "repo"]

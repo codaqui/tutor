@@ -2,10 +2,11 @@ import requests
 from utils.config import NODEJS_WHATSAPP_API_URL
 from utils.locales import locales
 
+
 def requests_options():
     """
     Returns the options for the requests library, including headers and timeout settings.
-    
+
     Returns:
         dict: Options for requests.
     """
@@ -19,7 +20,7 @@ def requests_options():
             "total": 3,  # Total number of retries
             "backoff_factor": 0.3,  # Backoff factor for retries
             "status_forcelist": [500, 502, 503, 504],  # HTTP status codes to retry on
-        }
+        },
     }
 
 
