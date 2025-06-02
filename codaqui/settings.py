@@ -45,7 +45,7 @@ CSRF_TRUSTED_ORIGINS = [
 
 INSTALLED_APPS = [
     # Native apps
-    "django.contrib.admin",
+    "codaqui.apps.CodaquiAdminConfig",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
