@@ -16,7 +16,6 @@ import requests
 from codaqui.settings import GITHUB_ORGANIZATION, GITHUB_REPOSITORY
 from github_service.auth import generate_access_token
 
-
 class Command(BaseCommand):
     help = "Verifica autenticação GitHub e testa acesso a repositório, issues, membro e convites."
 
@@ -36,28 +35,28 @@ class Command(BaseCommand):
             "Accept": "application/vnd.github+json",
         }
         
-        
         if not github_username:
             self.stdout.write(self.style.ERROR("❌ Erro: Você deve fornecer um GitHub username com --username."))
             return
+
         self.stdout.write(f"🔑 Usando token de acesso para o usuário: {github_username}")
-
-
         
         repo_url = f"https://api.github.com/repos/{GITHUB_ORGANIZATION}/{GITHUB_REPOSITORY}"
         repo_response = requests.get(repo_url, headers=headers)
+
         self.stdout.write(f"\n🔎 Verificando acesso ao repositório [{GITHUB_ORGANIZATION}/{GITHUB_REPOSITORY}]")
         self._check_response(repo_response)
 
-        
         issues_url = f"https://api.github.com/repos/{GITHUB_ORGANIZATION}/{GITHUB_REPOSITORY}/issues"
         issues_response = requests.get(issues_url, headers=headers)
+
         self.stdout.write("\n📝 Testando listagem de issues")
         self._check_response(issues_response)
 
         if issues_response.status_code == 200:
             issues = issues_response.json()
             total = len(issues)
+
             self.stdout.write(f"→ Total de issues retornadas: {total}")
 
             if total > 0:
@@ -65,18 +64,18 @@ class Command(BaseCommand):
                 for issue in issues:
                     number = issue.get("number", "Sem número")
                     title = issue.get("title", "Sem título")
+
                     self.stdout.write(f" - Issue #{number}: {title}")
 
-
-       
         membership_url = f"https://api.github.com/orgs/{GITHUB_ORGANIZATION}/memberships/{github_username}"
         membership_response = requests.get(membership_url, headers=headers)
+
         self.stdout.write(f"\n👥 Verificando se o usuário '{github_username}' é membro da organização")
         self._check_response(membership_response)
 
-        
         invitations_url = f"https://api.github.com/orgs/{GITHUB_ORGANIZATION}/invitations"
         invitations_response = requests.get(invitations_url, headers=headers)
+
         self.stdout.write("\n📩 Verificando convites pendentes na organização")
         self._check_response(invitations_response)
 
@@ -98,6 +97,5 @@ class Command(BaseCommand):
                 self.stdout.write(response.text)
             except Exception:
                 pass
-
 
 # Endpoint: https://docs.github.com/en/rest/reference/orgs
