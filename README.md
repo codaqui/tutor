@@ -142,6 +142,7 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
 - [❌] Criar página para editar perfil separada, para facilitar manutenção.
 - [❌] Resetar o banco de dados e partir como v1.
 
+
 ### Futuros Apps
 
 - [❌] App de Integração com o Discord
@@ -158,7 +159,8 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
 
 ### Melhorias de Infraestrutura
 
-- [❌] Cobertura de Testes
+- [⏳] Cobertura de Testes
+  - [✅] Verificar Permissões do Usuario/GitHub Apps
 - [❌] Modo de Desenvolvimento com Docker
 
 ## ⚙️ Desenvolvimento Com Docker
@@ -188,11 +190,24 @@ cp .env.example .env
 
 Preencha as secrets do arquivo `.env` com os valores que você obteve.
 
+1. Lembre-se de dar permissões necessarias ao GithubApp em `https://github.com/organizations/{sua_org}/settings/apps/{seu_githubapp}/permissions`
+2. Depois aceite o `PR` das alterações de permissão.
 
 ### ✅ Executando o Projeto
 
+- Caso esteja usando alguma distribuição baseada no Kernel UNIX, utilizar o comando `sudo chmod -R 777 ./staticfiles` dentro do diretório.
+
 ```bash
 docker compose up --build
+```
+
+### ✅ Teste de Permissões do GitHUB
+
+```bash
+# Utilize dentro do terminal docker (conteiner: web)
+python manage.py check_github_auth --username {seu_usuario}
+# ou 
+python manage.py check_github_auth -U {seu_usuario}
 ```
 
 ### 🌟 Criando um Super Usuário
