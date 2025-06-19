@@ -21,7 +21,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--username' or '-U',
+            '--username', '-U',
             type=str,
             help='GitHub username para testar membership (ex: \'endersonmenezes\')',
             default='' 
