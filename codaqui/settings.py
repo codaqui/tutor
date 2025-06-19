@@ -186,7 +186,8 @@ LOGGING = {
 }
 
 # Adapt to Different Environments and GitHub App
-GITHUB_ORGANIZATION = os.getenv("GITHUB_ORGANIZATION", "codaqui")
+# Fiz isso para não quebrar o código caso a variável de ambiente não esteja definida
+GITHUB_ORGANIZATION = os.getenv("GITHUB_ORGANIZATION") # os.getenv("GITHUB_ORGANIZATION", "codaquui") 
 GITHUB_REPOSITORY = os.getenv("GITHUB_REPOSITORY", "tutor")
 
 # Custom User Model with OAuth
