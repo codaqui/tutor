@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "student",
     "wallet",
     "github_service",
+    "discord_service",
     "whatsapp_messages",
 ]
 
@@ -163,6 +164,14 @@ GH_PRIVATE_KEY_FILE = os.getenv("GH_PRIVATE_KEY_FILE")
 GH_APP_INSTALL_ID = os.getenv("GH_APP_INSTALL_ID")
 GH_APP_ID = os.getenv("GH_APP_ID")
 
+# Discord Bot Integration
+# https://discord.com/developers/docs/reference
+
+DISCORD_CLIENT_SECRET = os.getenv("DISCORD_CLIENT_SECRET")
+DISCORD_CLIENT_ID = os.getenv("DISCORD_CLIENT_ID")
+DISCORD_API_ENDPOINT = os.getenv("DISCORD_API_ENDPOINT")
+DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -186,9 +195,10 @@ LOGGING = {
 }
 
 # Adapt to Different Environments and GitHub App
-# Fiz isso para não quebrar o código caso a variável de ambiente não esteja definida
+# I did this so as not to break the code if the environment variable is not defined.
 GITHUB_ORGANIZATION = os.getenv("GITHUB_ORGANIZATION") # os.getenv("GITHUB_ORGANIZATION", "codaquui") 
 GITHUB_REPOSITORY = os.getenv("GITHUB_REPOSITORY", "tutor")
+
 
 # Custom User Model with OAuth
 # https://python-social-auth.readthedocs.io/en/latest/configuration/django.html
