@@ -274,3 +274,6 @@ pyrightconfig.json
 
 # Shell scripts
 *.sh
+
+# init files
+__init__.py
