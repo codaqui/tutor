@@ -206,8 +206,19 @@ docker compose up --build
 ```bash
 # Utilize dentro do terminal docker (conteiner: web)
 python manage.py check_github_auth --username {seu_usuario}
+# ex: python manage.py check_github_auth --username GOC
 # ou 
 python manage.py check_github_auth -U {seu_usuario}
+```
+
+### ✅ Teste do Discord
+
+```bash
+# Utilize dentro do terminal docker (conteiner: web)
+python manage.py check_discord_auth
+# para enviar uma mensagem caso check_discord_auth retorne: Autenticação Discord: OK
+python manage.py send_message --channel_id {id_do_canal} --message {"Digite sua mensagem"}
+# ex: python manage.py send_message --channel_id 999999 --message "Olá pessoal"
 ```
 
 ### 🌟 Criando um Super Usuário
