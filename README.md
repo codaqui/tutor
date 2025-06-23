@@ -145,11 +145,11 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
 
 ### Futuros Apps
 
-- [❌] App de Integração com o Discord
+- [⏳] App de Integração com o Discord
   - [❌] Presença em Monitoria/Encontro
-  - [❌] Mensagem automática de Encontro e Resumo do Encontro
+  - [⏳] Mensagem automática de Encontro e Resumo do Encontro
   - [❌] Pontos automáticos para lista de presença.
-- [❌] Bot de Discord
+- [⏳] Bot de Discord
   - [❌] Ranking de Pontuação
   - [❌] Consultar/Editar perfil
   - [❌] Vinculo de Perfil do Discord para Perfil da Codaqui
@@ -161,7 +161,7 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
 
 - [⏳] Cobertura de Testes
   - [✅] Verificar Permissões do Usuario/GitHub Apps
-- [❌] Modo de Desenvolvimento com Docker
+- [⏳] Modo de Desenvolvimento com Docker
 
 ## ⚙️ Desenvolvimento Com Docker
 
