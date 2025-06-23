@@ -64,6 +64,7 @@ def invite_user_to_github_team(github_username: str):
     response = requests.put(url, headers=headers)
     return response
 
+
 def verify_membership(github_username: str) -> bool:
     """
     Verifies if a user is a member of the GitHub Team.
@@ -77,7 +78,11 @@ def verify_membership(github_username: str) -> bool:
     url = f"https://api.github.com/orgs/{GITHUB_ORGANIZATION}/teams/intranet/memberships/{github_username}"
     headers = github_headers()
     response = requests.get(url, headers=headers)
-    return (True if response.status_code == 200 and response.json()["state"] == "active" else False)
+    return (
+        True
+        if response.status_code == 200 and response.json()["state"] == "active"
+        else False
+    )
 
 
 def list_issues() -> list:
@@ -127,6 +132,7 @@ def assign_user_issue(issue_number: int, assignee: str):
     response = requests.patch(url, headers=headers, json=data)
     return response
 
+
 def list_comments(issue_number: int) -> list:
     """
     List all comments on an issue.
@@ -140,7 +146,8 @@ def list_comments(issue_number: int) -> list:
     url = f"https://api.github.com/repos/{GITHUB_ORGANIZATION}/{GITHUB_REPOSITORY}/issues/{issue_number}/comments"
     headers = github_headers()
     response = requests.get(url, headers=headers)
-    return response.json() 
+    return response.json()
+
 
 def create_comment(issue_number: int, comment: str, user: User):
     """
@@ -154,7 +161,7 @@ def create_comment(issue_number: int, comment: str, user: User):
     headers = github_user_headers(user)
     data = {"body": comment}
     response = requests.post(url, headers=headers, json=data)
-    return response   
+    return response
 
 
 @login_required
@@ -198,13 +205,16 @@ def view_issue_list(request):
         logging.info("No issues found")
     return render(request, "github_service/list_issues.html", {"issues": issues})
 
+
 @login_required
 def view_issue_comment_controller(request, issue_number):
     if request.method == "POST":
         comment = request.POST.get("comment")
         response = create_comment(issue_number, comment, request.user)
         if response.status_code == 201:
-            return redirect("github_service:issue_comments_controller", issue_number=issue_number)
+            return redirect(
+                "github_service:issue_comments_controller", issue_number=issue_number
+            )
         else:
             logging.error(f"Error creating comment on issue #{issue_number}")
             logging.error(f"Response: {response.json()}")

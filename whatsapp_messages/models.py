@@ -13,7 +13,7 @@ class Message(models.Model):
 
     def __str__(self):
         return f"Message from {self.sender} to {self.receiver} at {self.timestamp}"
-    
+
     def save(self, *args, **kwargs):
         message = send_message_via_whatsapp_api(self.receiver, self.content)
         if message:
@@ -21,7 +21,6 @@ class Message(models.Model):
             super().save(*args, **kwargs)
         else:
             logging.error(f"Failed to send message to {self.receiver}")
-        
 
 
 def send_message_via_whatsapp_api(number, message):
