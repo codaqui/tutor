@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "github_service",
     "discord_service",
     "whatsapp_messages",
+    "managecommands",
 ]
 
 MIDDLEWARE = [
@@ -193,8 +194,15 @@ LOGGING = {
 }
 
 # Adapt to Different Environments and GitHub App
-# I did this so as not to break the code if the environment variable is not defined.
-GITHUB_ORGANIZATION = os.getenv("GITHUB_ORGANIZATION") # os.getenv("GITHUB_ORGANIZATION", "codaquui") 
+GITHUB_ORGANIZATION = os.getenv("GITHUB_ORGANIZATION")
+
+# Ensure GITHUB_ORGANIZATION is set
+# This is critical for the GitHub App integration to function correctly.
+if not GITHUB_ORGANIZATION:
+    raise RuntimeError(
+        "A variável de ambiente GITHUB_ORGANIZATION não está definida. "
+        "Por favor, configure-a no seu .env. Consulte a documentação para mais detalhes."
+    )
 GITHUB_REPOSITORY = os.getenv("GITHUB_REPOSITORY", "tutor")
 
 
