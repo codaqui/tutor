@@ -217,8 +217,8 @@ python manage.py check_github_auth -U {seu_usuario}
 # Utilize dentro do terminal docker (conteiner: web)
 python manage.py check_discord_auth
 # para enviar uma mensagem caso check_discord_auth retorne: Autenticação Discord: OK
-python manage.py send_message --channel_id {id_do_canal} --message {"Digite sua mensagem"}
-# ex: python manage.py send_message --channel_id 999999 --message "Olá pessoal"
+python manage.py send_message --provider {provedor} --channel_id {id_do_canal} --message {"Digite sua mensagem"}
+# ex: python manage.py send_message --provider "discord" --channel_id 999999 --message "Olá pessoal"
 ```
 
 ### 🌟 Criando um Super Usuário
