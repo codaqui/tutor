@@ -143,6 +143,7 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
 - [❌] Resetar o banco de dados e partir como v1.
 
 
+
 ### Futuros Apps
 
 - [⏳] App de Integração com o Discord
@@ -156,6 +157,8 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
     - [❌] Modelo do Discord
     - [❌] 1:1 com Stundent
     - [❌] Integração de Carteira e Pontos
+- [❌] Detecção por flag de linguagem para tratamento de código (EN/PT/...), com suporte a formatos XML ou YAML.
+
 
 ### Melhorias de Infraestrutura
 
