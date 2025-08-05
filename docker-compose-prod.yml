@@ -19,7 +19,7 @@ services:
       - app-network
 
   web:
-    image: ghcr.io/codaqui/tutor-image:latest-arm64-v8
+    image: ghcr.io/codaqui/tutor-image:latest-amd64
     env_file:
       - .env
     depends_on:
@@ -65,7 +65,7 @@ services:
 
   whatsapp-api:
     container_name: whatsapp_api
-    image: ghcr.io/codaqui/whatsapp-api:latest-arm64-v8
+    image: ghcr.io/codaqui/whatsapp-api:latest-amd64
     ports:
       - "3000:3000"
     environment:
@@ -82,7 +82,7 @@ services:
 
   whatsapp-app:
     container_name: whatsapp_app
-    image: ghcr.io/codaqui/whatsapp-app:latest-arm64-v8
+    image: ghcr.io/codaqui/whatsapp-app:latest-amd64
     depends_on:
       - whatsapp-api
       - ollama
@@ -99,7 +99,7 @@ services:
 
   ollama:
     container_name: ollama
-    image: ghcr.io/codaqui/ollama:latest-arm64-v8
+    image: ghcr.io/codaqui/ollama:latest-amd64
     volumes:
       - ollama:/root/.ollama
     tty: true
