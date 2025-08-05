@@ -39,6 +39,8 @@ class Wallet(AuditModel):
             value = Decimal(value)
         if type(self.balance) != Decimal:
             self.balance = Decimal(self.balance)
+        if value < 0:
+            value = 0
         self.balance = self.balance + value
         self.save()
 
@@ -60,4 +62,6 @@ class Wallet(AuditModel):
     @receiver(pre_delete, sender=Activities)
     def transaction_deleted(sender, instance, **kwargs):
         wallet = Wallet.objects.get(user=instance.user)
+        if instance.value < 0:
+            raise ValueError("Não é possível excluir uma transação de crédito")
         wallet.debit(instance.value)

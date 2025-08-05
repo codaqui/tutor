@@ -142,24 +142,29 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
 - [❌] Criar página para editar perfil separada, para facilitar manutenção.
 - [❌] Resetar o banco de dados e partir como v1.
 
+
+
 ### Futuros Apps
 
-- [❌] App de Integração com o Discord
+- [⏳] App de Integração com o Discord
   - [❌] Presença em Monitoria/Encontro
-  - [❌] Mensagem automática de Encontro e Resumo do Encontro
+  - [⏳] Mensagem automática de Encontro e Resumo do Encontro
   - [❌] Pontos automáticos para lista de presença.
-- [❌] Bot de Discord
+- [⏳] Bot de Discord
   - [❌] Ranking de Pontuação
   - [❌] Consultar/Editar perfil
   - [❌] Vinculo de Perfil do Discord para Perfil da Codaqui
     - [❌] Modelo do Discord
     - [❌] 1:1 com Stundent
     - [❌] Integração de Carteira e Pontos
+- [❌] Detecção por flag de linguagem para tratamento de código (EN/PT/...), com suporte a formatos XML ou YAML.
+
 
 ### Melhorias de Infraestrutura
 
-- [❌] Cobertura de Testes
-- [❌] Modo de Desenvolvimento com Docker
+- [⏳] Cobertura de Testes
+  - [✅] Verificar Permissões do Usuario/GitHub Apps
+- [⏳] Modo de Desenvolvimento com Docker
 
 ## ⚙️ Desenvolvimento Com Docker
 
@@ -188,11 +193,35 @@ cp .env.example .env
 
 Preencha as secrets do arquivo `.env` com os valores que você obteve.
 
+1. Lembre-se de dar permissões necessarias ao GithubApp em `https://github.com/organizations/{sua_org}/settings/apps/{seu_githubapp}/permissions`
+2. Depois aceite o `PR` das alterações de permissão.
 
 ### ✅ Executando o Projeto
 
+- Caso esteja usando alguma distribuição baseada no Kernel UNIX, utilizar o comando `sudo chmod -R 777 ./staticfiles` dentro do diretório.
+
 ```bash
 docker compose up --build
+```
+
+### ✅ Teste de Permissões do GitHUB
+
+```bash
+# Utilize dentro do terminal docker (conteiner: web)
+python manage.py check_github_auth --username {seu_usuario}
+# ex: python manage.py check_github_auth --username GOC
+# ou 
+python manage.py check_github_auth -U {seu_usuario}
+```
+
+### ✅ Teste do Discord
+
+```bash
+# Utilize dentro do terminal docker (conteiner: web)
+python manage.py check_discord_auth
+# para enviar uma mensagem caso check_discord_auth retorne: Autenticação Discord: OK
+python manage.py send_message --provider {provedor} --channel_id {id_do_canal} --message {"Digite sua mensagem"}
+# ex: python manage.py send_message --provider "discord" --channel_id 999999 --message "Olá pessoal"
 ```
 
 ### 🌟 Criando um Super Usuário
