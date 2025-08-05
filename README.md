@@ -143,6 +143,7 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
 - [❌] Resetar o banco de dados e partir como v1.
 
 
+
 ### Futuros Apps
 
 - [⏳] App de Integração com o Discord
@@ -156,6 +157,8 @@ A ideia básica é criar um sistema que o aluno consiga criar sua conta com o Gi
     - [❌] Modelo do Discord
     - [❌] 1:1 com Stundent
     - [❌] Integração de Carteira e Pontos
+- [❌] Detecção por flag de linguagem para tratamento de código (EN/PT/...), com suporte a formatos XML ou YAML.
+
 
 ### Melhorias de Infraestrutura
 
@@ -217,8 +220,8 @@ python manage.py check_github_auth -U {seu_usuario}
 # Utilize dentro do terminal docker (conteiner: web)
 python manage.py check_discord_auth
 # para enviar uma mensagem caso check_discord_auth retorne: Autenticação Discord: OK
-python manage.py send_message --channel_id {id_do_canal} --message {"Digite sua mensagem"}
-# ex: python manage.py send_message --channel_id 999999 --message "Olá pessoal"
+python manage.py send_message --provider {provedor} --channel_id {id_do_canal} --message {"Digite sua mensagem"}
+# ex: python manage.py send_message --provider "discord" --channel_id 999999 --message "Olá pessoal"
 ```
 
 ### 🌟 Criando um Super Usuário

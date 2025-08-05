@@ -33,5 +33,4 @@ urlpatterns = [
     path("student/", include("student.urls", namespace="student")),
     path("wallet/", include("wallet.urls", namespace="wallet")),
     path("github-service/", include("github_service.urls", namespace="github_service")),
-    #path("discord-service/", include("discord_service.urls", namespace="discord_service")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
