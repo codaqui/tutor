@@ -59,7 +59,9 @@ INSTALLED_APPS = [
     "student",
     "wallet",
     "github_service",
+    "discord_service",
     "whatsapp_messages",
+    "managecommands",
 ]
 
 MIDDLEWARE = [
@@ -161,6 +163,14 @@ GH_PRIVATE_KEY_FILE = os.getenv("GH_PRIVATE_KEY_FILE")
 GH_APP_INSTALL_ID = os.getenv("GH_APP_INSTALL_ID")
 GH_APP_ID = os.getenv("GH_APP_ID")
 
+# Discord Bot Integration
+# https://discord.com/developers/docs/reference
+
+DISCORD_CLIENT_SECRET = os.getenv("DISCORD_CLIENT_SECRET")
+DISCORD_CLIENT_ID = os.getenv("DISCORD_CLIENT_ID")
+DISCORD_API_ENDPOINT = os.getenv("DISCORD_API_ENDPOINT")
+DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -184,8 +194,17 @@ LOGGING = {
 }
 
 # Adapt to Different Environments and GitHub App
-GITHUB_ORGANIZATION = os.getenv("GITHUB_ORGANIZATION", "codaqui")
+GITHUB_ORGANIZATION = os.getenv("GITHUB_ORGANIZATION")
+
+# Ensure GITHUB_ORGANIZATION is set
+# This is critical for the GitHub App integration to function correctly.
+if not GITHUB_ORGANIZATION:
+    raise RuntimeError(
+        "A variável de ambiente GITHUB_ORGANIZATION não está definida. "
+        "Por favor, configure-a no seu .env. Consulte a documentação para mais detalhes."
+    )
 GITHUB_REPOSITORY = os.getenv("GITHUB_REPOSITORY", "tutor")
+
 
 # Custom User Model with OAuth
 # https://python-social-auth.readthedocs.io/en/latest/configuration/django.html
@@ -202,4 +221,9 @@ SOCIAL_AUTH_GITHUB_SECRET = os.getenv("GITHUB_OAUTH_SECRET")
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = (
     os.getenv("SOCIAL_AUTH_REDIRECT_IS_HTTPS", "True") == "True"
 )
-SOCIAL_AUTH_GITHUB_SCOPE = ["read:user", "user:follow", "user:email", "repo"]
+SOCIAL_AUTH_GITHUB_SCOPE = [
+    "read:user",
+    "user:follow",
+    "user:email",
+    "repo"
+]
