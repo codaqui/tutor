@@ -112,6 +112,7 @@ services:
 
   ### --- Piping Server --- ###
   piping-server:
+    container_name: piping_server
     image: nwtgck/piping-server
     ports:
       - "8080:8080"
