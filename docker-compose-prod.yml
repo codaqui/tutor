@@ -111,10 +111,21 @@ services:
   ### --- App Tutor --- ###
 
   ### --- Piping Server --- ###
+  piping-server:
+    image: nwtgck/piping-server
+    ports:
+      - "8080:8080"
+    environment:
+      - PIPING_SERVER_PORT=8080
+    restart: always
+    networks:
+      - ping-network
   ### --- Piping Server --- ###
 
 networks:
   app-network:
+    driver: bridge
+  ping-network:
     driver: bridge
 
 volumes:
