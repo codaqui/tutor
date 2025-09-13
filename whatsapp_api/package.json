@@ -12,7 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "@hapi/boom": "^10.0.1",
-    "axios": "^1.9.0",
+    "axios": "^1.12.1",
     "baileys": "^6.17.16",
     "body-parser": "^1.20.2",
     "express": "^5.1.0",
